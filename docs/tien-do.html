@@ -79,11 +79,11 @@ footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
     <h1 class="logo"><b>cucre</b>.vn · tiến độ xây dựng</h1>
     <p class="sub">Theo kế hoạch ngày 15/11/2026. Bấm vào từng mục để xem chi tiết.</p>
     <div class="summary">
-      <span class="pill done">1 xong</span>
+      <span class="pill done">2 xong</span>
       <span class="pill block">1 chờ bạn</span>
-      <span class="pill todo">8 chưa làm</span>
+      <span class="pill todo">7 chưa làm</span>
     </div>
-    <div class="bar" aria-label="Hoàn thành 1 trên 9 prompt"><i style="width:11%"></i></div>
+    <div class="bar" aria-label="Hoàn thành 2 trên 9 prompt"><i style="width:22%"></i></div>
   </header>
 
   <ol class="thread">
@@ -99,7 +99,7 @@ footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
           <ul class="checks">
             <li class="ok">Tạo repo GitHub: <code>tainguyen2810/cucre</code></li>
             <li class="ok">File <code>CLAUDE.md</code> đã có trong dự án</li>
-            <li class="no">Xác nhận để mình đẩy code lên GitHub (code hiện chỉ nằm trên máy cloud tạm)</li>
+            <li class="ok">Code đã đẩy lên GitHub, nhánh <code>main</code></li>
             <li class="no">Xuất file thiết kế từ canvas, gửi để đặt vào <code>design/</code> (cần cho Prompt 3)</li>
             <li>Đăng ký Shopee Affiliate, Accesstrade, Klook, Agoda/Traveloka</li>
             <li>Kiểm tra mạng affiliate nào có API coupon/datafeed</li>
@@ -116,7 +116,7 @@ footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
       <details class="card">
         <summary>
           <div class="head"><p class="title">Prompt 1 · Khởi tạo dự án</p><span class="pill done">Xong</span></div>
-          <span class="meta">Giai đoạn 1 · MVP · đã commit, chưa đẩy lên GitHub</span>
+          <span class="meta">Giai đoạn 1 · MVP · đã lên GitHub nhánh main</span>
         </summary>
         <div class="body">
           <div><h3>Đã làm</h3><ul>
@@ -136,18 +136,37 @@ footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
       </details>
     </li>
 
-    <li class="item" data-s="todo">
+    <li class="item" data-s="done">
       <div class="dot">2</div>
       <details class="card">
         <summary>
-          <div class="head"><p class="title">Prompt 2 · Cơ sở dữ liệu</p><span class="pill todo">Làm tiếp theo</span></div>
-          <span class="meta">Giai đoạn 1 · không cần file thiết kế</span>
+          <div class="head"><p class="title">Prompt 2 · Cơ sở dữ liệu</p><span class="pill done">Xong</span></div>
+          <span class="meta">Giai đoạn 1 · nhánh <code>prompt-2-database</code> · đã lên GitHub, chờ gộp vào main</span>
         </summary>
-        <div class="body"><ul>
-          <li>13 bảng: Platform, Category, Deal, PriceHistory, Coupon, Place, Voucher, VoucherClaim, PartnerLead, Post, Click, SaleEvent, AdminUser</li>
-          <li>Cột tiêu đề không dấu để tìm kiếm</li>
-          <li>Dữ liệu mẫu: vài sàn, danh mục, 12 deal, 8 coupon, 4 quán</li>
-        </ul></div>
+        <div class="body">
+          <div><h3>Rà soát</h3><ul>
+            <li>MySQL không có kiểu mảng, nên <code>images</code>, <code>techPros</code>, <code>techCons</code> trong CLAUDE.md phải lưu dạng JSON.</li>
+            <li><code>Post.relatedDealIds</code> lưu danh sách ID sẽ khó truy vấn và dễ lệch khi xóa deal; nên dùng bảng nối.</li>
+            <li>Trang chi tiết deal có mục “mã dùng kèm” nhưng CLAUDE.md chưa có liên kết Deal–Coupon.</li>
+            <li>Trang mã giảm giá lọc “theo ngành” nhưng Coupon chưa có danh mục. Trang ăn uống lọc theo quận qua URL <code>/an-uong/binh-tan</code> nên cần slug quận.</li>
+          </ul></div>
+          <div><h3>Kế hoạch</h3><ul>
+            <li>Viết đủ 13 bảng; tiền lưu số nguyên (đồng), trạng thái dùng enum, đánh index cho các cột lọc/sắp xếp.</li>
+            <li>Thêm: cột tiêu đề không dấu (Deal, Coupon, Place, Post) để tìm kiếm; bảng nối Post–Deal và Deal–Coupon; <code>Coupon.categoryId</code>; <code>Place.districtSlug</code>; <code>Deal.destination</code> cho du lịch.</li>
+            <li>VoucherClaim: mỗi SĐT chỉ nhận 1 lần cho mỗi voucher (ràng buộc duy nhất trong DB), lưu thời điểm khách đồng ý xử lý dữ liệu.</li>
+            <li>Click: không lưu IP; chỉ lưu mã băm IP theo ngày để lọc click trùng.</li>
+            <li>Seed tiếng Việt: 7 sàn, danh mục dạng cây, 12 deal (kèm lịch sử giá 30 ngày), 8 coupon, 4 quán + voucher, 1 lịch sale, 1 bài blog. Chạy lại được nhiều lần; tự từ chối chạy trên production.</li>
+            <li>Viết <code>docs/du-lieu.md</code> giải thích ngắn từng bảng; cập nhật phần Dữ liệu trong CLAUDE.md.</li>
+            <li>Kiểm tra: migration, seed, build, lint, typecheck.</li>
+          </ul></div>
+          <div><h3>Kết quả</h3><ul>
+            <li>Đã làm đủ theo kế hoạch. Migration <code>full_schema</code>, giải thích bảng ở <code>docs/du-lieu.md</code>.</li>
+            <li>Seed chạy 2 lần liên tiếp không lỗi: 7 sàn, 22 danh mục, 12 deal, 360 điểm lịch sử giá, 8 coupon, 4 quán + voucher.</li>
+            <li>Tiếng Việt lưu đúng (utf8mb4); cột tìm kiếm không dấu và % giảm tính đúng.</li>
+            <li>lint, build, typecheck: không lỗi.</li>
+          </ul></div>
+          <div class="note">Prisma 7 không tự sinh lại client sau khi migrate, nên <code>npm run db:migrate</code> đã gộp sẵn bước này. Dữ liệu mẫu dùng tên quán bịa, chưa có ảnh.</div>
+        </div>
       </details>
     </li>
 

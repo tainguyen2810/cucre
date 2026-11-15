@@ -1,4 +1,5 @@
-// Schema Prisma cho cucre.vn. Các model còn lại (Platform, Deal, Coupon...) thêm ở Prompt 2.
+// Schema Prisma cho cucre.vn – xem giải thích từng bảng ở docs/du-lieu.md.
+// Quy ước: tiền lưu số nguyên (đồng), cột *Search là chữ thường không dấu để tìm kiếm.
 
 generator client {
   provider = "prisma-client"
@@ -9,10 +10,381 @@ datasource db {
   provider = "mysql"
 }
 
+// ---------- Enum ----------
+
 enum AdminRole {
   admin
   editor
 }
+
+/// Mảng nội dung của site
+enum Segment {
+  product // Giá rẻ – đồ công nghệ
+  digital // Kỹ thuật số
+  travel // Du lịch
+  local // Ăn uống & Spa
+}
+
+enum DealStatus {
+  draft
+  pending // nhập tự động, chờ admin duyệt
+  published
+  expired
+}
+
+enum CouponStatus {
+  pending
+  published
+  expired
+}
+
+enum PlaceType {
+  restaurant // Nhà hàng / quán ăn
+  cafe
+  buffet
+  spa
+  massage
+  salon
+  other
+}
+
+enum PlaceStatus {
+  draft
+  published
+  paused
+}
+
+enum VoucherStatus {
+  draft
+  published
+  paused
+  expired
+}
+
+enum ClaimStatus {
+  issued
+  used
+  cancelled
+}
+
+enum LeadStatus {
+  new
+  contacted
+  signed
+  rejected
+}
+
+enum PostStatus {
+  draft
+  published
+}
+
+// ---------- Danh mục chung ----------
+
+/// Sàn / nền tảng bán hàng: Shopee, Lazada, Klook, Agoda, ITSO...
+model Platform {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(100)
+  slug      String   @unique @db.VarChar(100)
+  logo      String?  @db.VarChar(255)
+  website   String?  @db.VarChar(255)
+  /// Mạng affiliate: accesstrade, shopee, lazada, klook, direct (bán trực tiếp)...
+  network   String?  @db.VarChar(50)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  deals   Deal[]
+  coupons Coupon[]
+  clicks  Click[]
+}
+
+/// Danh mục dạng cây theo từng mảng (deal công nghệ › SSD, du lịch › tour...)
+model Category {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(100)
+  slug      String   @unique @db.VarChar(120)
+  segment   Segment
+  parentId  Int?
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  parent   Category?  @relation("CategoryTree", fields: [parentId], references: [id], onDelete: SetNull)
+  children Category[] @relation("CategoryTree")
+  deals    Deal[]
+  coupons  Coupon[]
+
+  @@index([segment, sortOrder])
+}
+
+// ---------- Deal ----------
+
+/// Một sản phẩm / ưu đãi: đồ công nghệ, phần mềm, tour, khách sạn...
+model Deal {
+  id              Int        @id @default(autoincrement())
+  type            Segment
+  title           String     @db.VarChar(255)
+  slug            String     @unique @db.VarChar(191)
+  /// Tiêu đề chữ thường không dấu, dùng cho tìm kiếm
+  titleSearch     String     @db.VarChar(255)
+  summary         String?    @db.VarChar(500)
+  description     String?    @db.Text
+  /// Danh sách đường dẫn ảnh (string[])
+  images          Json
+  price           Int
+  oldPrice        Int?
+  /// Tự tính từ price và oldPrice khi lưu
+  discountPercent Int        @default(0)
+  affiliateUrl    String     @db.VarChar(1000)
+  /// Điểm đến (chỉ dùng cho deal du lịch)
+  destination     String?    @db.VarChar(120)
+  /// Đánh giá của kỹ thuật viên
+  techPros        Json? // string[] – điểm cộng
+  techCons        Json? // string[] – lưu ý
+  techVerdict     String?    @db.Text // kết luận
+  status          DealStatus @default(draft)
+  featured        Boolean    @default(false)
+  /// Mã ở hệ thống nguồn khi nhập tự động (để không nhập trùng)
+  externalId      String?    @db.VarChar(191)
+  expiresAt       DateTime?
+  publishedAt     DateTime?
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  platformId Int
+  platform   Platform  @relation(fields: [platformId], references: [id])
+  categoryId Int?
+  category   Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+
+  priceHistory PriceHistory[]
+  /// Mã giảm giá dùng kèm
+  coupons      Coupon[]       @relation("DealCoupons")
+  posts        Post[]         @relation("PostDeals")
+  clicks       Click[]
+
+  @@unique([platformId, externalId])
+  @@index([status, type, publishedAt])
+  @@index([status, featured])
+  @@index([categoryId])
+  @@index([expiresAt])
+}
+
+/// Lịch sử giá của Deal, để vẽ biểu đồ 30 ngày
+model PriceHistory {
+  id         Int      @id @default(autoincrement())
+  dealId     Int
+  price      Int
+  recordedAt DateTime @default(now())
+
+  deal Deal @relation(fields: [dealId], references: [id], onDelete: Cascade)
+
+  @@index([dealId, recordedAt])
+}
+
+// ---------- Mã giảm giá ----------
+
+model Coupon {
+  id          Int          @id @default(autoincrement())
+  /// Mã để khách sao chép; null nếu là ưu đãi không cần mã (bấm link là áp dụng)
+  code        String?      @db.VarChar(64)
+  title       String       @db.VarChar(255)
+  titleSearch String       @db.VarChar(255)
+  conditions  String?      @db.Text
+  /// Đơn tối thiểu (đồng)
+  minOrder    Int?
+  /// Giảm tối đa (đồng)
+  maxDiscount Int?
+  /// % lượt dùng đã hết (hiển thị thanh tiến độ)
+  usedPercent Int          @default(0)
+  url         String       @db.VarChar(1000)
+  status      CouponStatus @default(published)
+  featured    Boolean      @default(false)
+  externalId  String?      @db.VarChar(191)
+  startsAt    DateTime?
+  expiresAt   DateTime?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  platformId Int
+  platform   Platform  @relation(fields: [platformId], references: [id])
+  categoryId Int?
+  category   Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+
+  deals  Deal[]  @relation("DealCoupons")
+  clicks Click[]
+
+  @@unique([platformId, externalId])
+  @@index([status, platformId, expiresAt])
+  @@index([categoryId])
+}
+
+// ---------- Ăn uống & Spa ----------
+
+/// Quán / spa đối tác
+model Place {
+  id                Int         @id @default(autoincrement())
+  name              String      @db.VarChar(191)
+  slug              String      @unique @db.VarChar(191)
+  nameSearch        String      @db.VarChar(191)
+  type              PlaceType
+  description       String?     @db.Text
+  address           String      @db.VarChar(255)
+  /// Tên quận/huyện có dấu, vd "Bình Tân"
+  district          String      @db.VarChar(100)
+  /// Slug quận cho URL, vd "binh-tan"
+  districtSlug      String      @db.VarChar(100)
+  ward              String?     @db.VarChar(100)
+  city              String      @default("TP. Hồ Chí Minh") @db.VarChar(100)
+  lat               Float?
+  lng               Float?
+  openingHours      String?     @db.VarChar(255)
+  /// Danh sách đường dẫn ảnh (string[])
+  images            Json
+  /// % chiết khấu quán trả cho cucre.vn
+  commissionPercent Float?
+  /// Thông tin liên hệ nội bộ (tên, SĐT chủ quán) – chỉ admin xem
+  contact           String?     @db.VarChar(255)
+  status            PlaceStatus @default(draft)
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+
+  vouchers Voucher[]
+
+  @@index([status, districtSlug, type])
+}
+
+/// Ưu đãi của quán
+model Voucher {
+  id         Int           @id @default(autoincrement())
+  placeId    Int
+  title      String        @db.VarChar(255)
+  price      Int
+  oldPrice   Int?
+  conditions String?       @db.Text
+  /// Tổng số mã phát ra; null = không giới hạn
+  quantity   Int?
+  status     VoucherStatus @default(draft)
+  startsAt   DateTime?
+  expiresAt  DateTime?
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+
+  place  Place          @relation(fields: [placeId], references: [id], onDelete: Cascade)
+  claims VoucherClaim[]
+
+  @@index([placeId, status])
+}
+
+/// Khách nhận mã voucher. Họ tên + SĐT là dữ liệu cá nhân: chỉ admin xem.
+model VoucherClaim {
+  id        Int         @id @default(autoincrement())
+  voucherId Int
+  fullName  String      @db.VarChar(120)
+  /// SĐT chuẩn hóa dạng 0xxxxxxxxx
+  phone     String      @db.VarChar(15)
+  code      String      @unique @db.VarChar(20)
+  status    ClaimStatus @default(issued)
+  /// Thời điểm khách tích đồng ý xử lý dữ liệu cá nhân
+  consentAt DateTime
+  usedAt    DateTime?
+  /// Mã băm IP theo ngày (không lưu IP thật) để giới hạn tần suất
+  ipHash    String?     @db.VarChar(64)
+  createdAt DateTime    @default(now())
+
+  voucher Voucher @relation(fields: [voucherId], references: [id], onDelete: Cascade)
+
+  // Mỗi SĐT chỉ nhận một mã cho mỗi voucher
+  @@unique([voucherId, phone])
+  @@index([phone])
+  @@index([status, createdAt])
+}
+
+/// Đơn đăng ký hợp tác của quán/spa
+model PartnerLead {
+  id                 Int        @id @default(autoincrement())
+  placeName          String     @db.VarChar(191)
+  placeType          String     @db.VarChar(100)
+  address            String     @db.VarChar(255)
+  contactName        String     @db.VarChar(120)
+  phone              String     @db.VarChar(15)
+  email              String?    @db.VarChar(191)
+  /// Chiết khấu đề xuất, vd "10%"
+  proposedCommission String?    @db.VarChar(50)
+  offer              String?    @db.Text
+  note               String?    @db.Text
+  status             LeadStatus @default(new)
+  consentAt          DateTime
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
+
+  @@index([status, createdAt])
+}
+
+// ---------- Nội dung ----------
+
+/// Bài blog "Nên mua gì"
+model Post {
+  id          Int        @id @default(autoincrement())
+  title       String     @db.VarChar(255)
+  slug        String     @unique @db.VarChar(191)
+  titleSearch String     @db.VarChar(255)
+  /// Chuyên mục bài viết, vd "Nên mua gì", "Kinh nghiệm du lịch"
+  category    String     @db.VarChar(100)
+  excerpt     String?    @db.VarChar(500)
+  coverImage  String?    @db.VarChar(255)
+  /// Nội dung Markdown
+  content     String     @db.LongText
+  status      PostStatus @default(draft)
+  publishedAt DateTime?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  relatedDeals Deal[] @relation("PostDeals")
+
+  @@index([status, publishedAt])
+}
+
+/// Lịch sale: 11.11, 12.12, sale lương...
+model SaleEvent {
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(120)
+  slug        String   @unique @db.VarChar(120)
+  description String?  @db.VarChar(500)
+  startsAt    DateTime
+  endsAt      DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([startsAt])
+}
+
+// ---------- Thống kê ----------
+
+/// Log mỗi lần khách bấm ra sàn qua /go/[id]. Không lưu IP thật.
+model Click {
+  id         Int      @id @default(autoincrement())
+  dealId     Int?
+  couponId   Int?
+  platformId Int?
+  referrer   String?  @db.VarChar(255)
+  /// User-Agent rút gọn (tối đa 255 ký tự)
+  userAgent  String?  @db.VarChar(255)
+  /// Mã băm IP + ngày, để lọc click trùng
+  ipHash     String?  @db.VarChar(64)
+  createdAt  DateTime @default(now())
+
+  deal     Deal?     @relation(fields: [dealId], references: [id], onDelete: SetNull)
+  coupon   Coupon?   @relation(fields: [couponId], references: [id], onDelete: SetNull)
+  platform Platform? @relation(fields: [platformId], references: [id], onDelete: SetNull)
+
+  @@index([createdAt])
+  @@index([dealId, createdAt])
+  @@index([couponId, createdAt])
+  @@index([platformId, createdAt])
+}
+
+// ---------- Quản trị ----------
 
 model AdminUser {
   id           Int       @id @default(autoincrement())

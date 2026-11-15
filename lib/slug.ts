@@ -15,3 +15,8 @@ export function slugify(input: string): string {
     .replace(/^-+|-+$/g, "")
     .slice(0, 120);
 }
+
+/** Chuỗi dùng cho cột tìm kiếm: chữ thường, không dấu, gộp khoảng trắng. */
+export function toSearchText(input: string): string {
+  return removeVietnameseTones(input).toLowerCase().replace(/\s+/g, " ").trim();
+}
