@@ -1,0 +1,260 @@
+<title>Tiến độ cucre.vn</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Bố cục: một cột "thread" dọc, mỗi giai đoạn là một tin trong luồng, nối bằng đường chỉ bên trái. */
+:root {
+  --bg: #f6f5f2;
+  --card: #ffffff;
+  --ink: #1d1d1b;
+  --muted: #5f5e59;
+  --line: #e7e5e0;
+  --brand: #d92d20;
+  --done-bg: #ecfdf3; --done-fg: #05603a;
+  --wip-bg: #fffaeb;  --wip-fg: #93370d;
+  --todo-bg: #f1efea; --todo-fg: #5f5e59;
+  --block-bg: #fef3f2; --block-fg: #b42318;
+  --font: "Be Vietnam Pro", ui-sans-serif, system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #161614; --card: #1f1f1d; --ink: #f2f1ed; --muted: #a8a69f; --line: #34332f; --brand: #f97066;
+  --done-bg: #0b3b26; --done-fg: #a6f4c5; --wip-bg: #3d2a0a; --wip-fg: #fedf89;
+  --todo-bg: #2a2926; --todo-fg: #b9b7b0; --block-bg: #4a1410; --block-fg: #fda29b; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #161614; --card: #1f1f1d; --ink: #f2f1ed; --muted: #a8a69f; --line: #34332f; --brand: #f97066;
+  --done-bg: #0b3b26; --done-fg: #a6f4c5; --wip-bg: #3d2a0a; --wip-fg: #fedf89;
+  --todo-bg: #2a2926; --todo-fg: #b9b7b0; --block-bg: #4a1410; --block-fg: #fda29b; color-scheme: dark; }
+
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 15px; line-height: 1.55; }
+.wrap { max-width: 760px; margin: 0 auto; padding-block: 32px 64px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+header { display: grid; gap: 6px; margin-bottom: 24px; }
+.logo { font-weight: 700; font-size: 26px; letter-spacing: -0.01em; margin: 0; text-wrap: balance; }
+.logo b { color: var(--brand); }
+.sub { color: var(--muted); margin: 0; }
+.summary { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.bar { height: 8px; border-radius: 99px; background: var(--line); overflow: hidden; margin-top: 4px; }
+.bar i { display: block; height: 100%; background: var(--done-fg); }
+
+.thread { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; position: relative; }
+.thread::before { content: ""; position: absolute; left: 15px; top: 8px; bottom: 8px; width: 2px; background: var(--line); }
+.item { display: grid; grid-template-columns: 32px minmax(0, 1fr); gap: 12px; position: relative; }
+.dot { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; font: 600 12px var(--mono);
+  background: var(--card); border: 2px solid var(--line); color: var(--muted); z-index: 1; }
+.item[data-s="done"] .dot { background: var(--done-bg); border-color: var(--done-fg); color: var(--done-fg); }
+.item[data-s="wip"] .dot { background: var(--wip-bg); border-color: var(--wip-fg); color: var(--wip-fg); }
+.item[data-s="block"] .dot { background: var(--block-bg); border-color: var(--block-fg); color: var(--block-fg); }
+
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; min-width: 0; }
+.card summary { list-style: none; cursor: pointer; padding: 14px 16px; display: grid; gap: 4px; }
+.card summary::-webkit-details-marker { display: none; }
+.card summary:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; border-radius: 14px; }
+.head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; justify-content: space-between; }
+.title { font-weight: 600; font-size: 16px; margin: 0; }
+.meta { color: var(--muted); font-size: 13px; }
+.pill { font-size: 12px; font-weight: 600; padding: 2px 10px; border-radius: 99px; white-space: nowrap; }
+.pill.done { background: var(--done-bg); color: var(--done-fg); }
+.pill.wip { background: var(--wip-bg); color: var(--wip-fg); }
+.pill.todo { background: var(--todo-bg); color: var(--todo-fg); }
+.pill.block { background: var(--block-bg); color: var(--block-fg); }
+.body { padding: 0 16px 16px; border-top: 1px solid var(--line); display: grid; gap: 12px; padding-top: 12px; }
+.body h3 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 0 0 4px; font-weight: 600; }
+.body ul { margin: 0; padding-left: 18px; display: grid; gap: 3px; }
+.checks { list-style: none; padding: 0 !important; }
+.checks li { display: grid; grid-template-columns: 20px minmax(0,1fr); gap: 6px; }
+.checks li::before { content: "○"; color: var(--muted); }
+.checks li.ok::before { content: "✓"; color: var(--done-fg); font-weight: 700; }
+.checks li.no::before { content: "!"; color: var(--block-fg); font-weight: 700; text-align: center; }
+code { font-family: var(--mono); font-size: 13px; background: var(--bg); padding: 1px 5px; border-radius: 4px; overflow-wrap: anywhere; }
+.note { background: var(--wip-bg); color: var(--wip-fg); border-radius: 10px; padding: 10px 12px; font-size: 14px; }
+footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
+@media (prefers-reduced-motion: no-preference) { .card summary { transition: background .15s; } }
+.card summary:hover { background: color-mix(in srgb, var(--bg) 60%, transparent); border-radius: 14px; }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1 class="logo"><b>cucre</b>.vn · tiến độ xây dựng</h1>
+    <p class="sub">Theo kế hoạch ngày 15/11/2026. Bấm vào từng mục để xem chi tiết.</p>
+    <div class="summary">
+      <span class="pill done">1 xong</span>
+      <span class="pill block">1 chờ bạn</span>
+      <span class="pill todo">8 chưa làm</span>
+    </div>
+    <div class="bar" aria-label="Hoàn thành 1 trên 9 prompt"><i style="width:11%"></i></div>
+  </header>
+
+  <ol class="thread">
+
+    <li class="item" data-s="block">
+      <div class="dot">0</div>
+      <details class="card" open>
+        <summary>
+          <div class="head"><p class="title">Giai đoạn 0 · Chuẩn bị</p><span class="pill block">Chờ bạn</span></div>
+          <span class="meta">Việc ngoài code, bạn tự làm · 3–5 ngày</span>
+        </summary>
+        <div class="body">
+          <ul class="checks">
+            <li class="ok">Tạo repo GitHub: <code>tainguyen2810/cucre</code></li>
+            <li class="ok">File <code>CLAUDE.md</code> đã có trong dự án</li>
+            <li class="no">Xác nhận để mình đẩy code lên GitHub (code hiện chỉ nằm trên máy cloud tạm)</li>
+            <li class="no">Xuất file thiết kế từ canvas, gửi để đặt vào <code>design/</code> (cần cho Prompt 3)</li>
+            <li>Đăng ký Shopee Affiliate, Accesstrade, Klook, Agoda/Traveloka</li>
+            <li>Kiểm tra mạng affiliate nào có API coupon/datafeed</li>
+            <li>Trỏ DNS cucre.vn, tạo site aaPanel, cài Node 20+, PM2, MySQL 8</li>
+            <li>Logo (tạm dùng chữ được)</li>
+            <li>Hỏi kế toán về hạch toán hoa hồng và ngành nghề ITSO</li>
+          </ul>
+        </div>
+      </details>
+    </li>
+
+    <li class="item" data-s="done">
+      <div class="dot">1</div>
+      <details class="card">
+        <summary>
+          <div class="head"><p class="title">Prompt 1 · Khởi tạo dự án</p><span class="pill done">Xong</span></div>
+          <span class="meta">Giai đoạn 1 · MVP · đã commit, chưa đẩy lên GitHub</span>
+        </summary>
+        <div class="body">
+          <div><h3>Đã làm</h3><ul>
+            <li>Next.js 16 + TypeScript + Tailwind 4, font Be Vietnam Pro, bảng màu theo CLAUDE.md</li>
+            <li>Prisma 7 + MySQL, bảng <code>AdminUser</code>, migration đầu tiên, seed tài khoản admin</li>
+            <li>Auth.js đăng nhập email + mật khẩu; <code>proxy.ts</code> chặn <code>/admin</code></li>
+            <li><code>lib/slug.ts</code> (URL không dấu), <code>lib/format.ts</code> (1.290.000đ)</li>
+            <li><code>.env.example</code>, README tiếng Việt, script <code>db:migrate</code>, <code>db:seed</code>, <code>db:deploy</code></li>
+          </ul></div>
+          <div><h3>Đã kiểm tra</h3><ul>
+            <li>lint, typecheck, build: không lỗi</li>
+            <li>Migration + seed chạy được trên MariaDB thử nghiệm</li>
+            <li>Chưa đăng nhập vào /admin bị chuyển sang trang đăng nhập; sai mật khẩu bị từ chối; đúng mật khẩu vào được</li>
+          </ul></div>
+          <div class="note">Next.js 16 đổi <code>middleware</code> thành <code>proxy</code>; Prisma 7 cần <code>prisma.config.ts</code>. Đã ghi vào CLAUDE.md.</div>
+        </div>
+      </details>
+    </li>
+
+    <li class="item" data-s="todo">
+      <div class="dot">2</div>
+      <details class="card">
+        <summary>
+          <div class="head"><p class="title">Prompt 2 · Cơ sở dữ liệu</p><span class="pill todo">Làm tiếp theo</span></div>
+          <span class="meta">Giai đoạn 1 · không cần file thiết kế</span>
+        </summary>
+        <div class="body"><ul>
+          <li>13 bảng: Platform, Category, Deal, PriceHistory, Coupon, Place, Voucher, VoucherClaim, PartnerLead, Post, Click, SaleEvent, AdminUser</li>
+          <li>Cột tiêu đề không dấu để tìm kiếm</li>
+          <li>Dữ liệu mẫu: vài sàn, danh mục, 12 deal, 8 coupon, 4 quán</li>
+        </ul></div>
+      </details>
+    </li>
+
+    <li class="item" data-s="block">
+      <div class="dot">3</div>
+      <details class="card">
+        <summary>
+          <div class="head"><p class="title">Prompt 3 · Giao diện chung</p><span class="pill block">Cần file thiết kế</span></div>
+          <span class="meta">Giai đoạn 1</span>
+        </summary>
+        <div class="body"><ul>
+          <li>Header (logo, ô tìm kiếm viền đỏ, chọn khu vực, nút Zalo, menu 7 mục), footer có câu công khai hoa hồng</li>
+          <li>Component: DealCard, CouponTicket, PlaceCard, Badge, Chip, Pagination</li>
+          <li>Responsive tới 390px</li>
+        </ul></div>
+      </details>
+    </li>
+
+    <li class="item" data-s="todo">
+      <div class="dot">4</div>
+      <details class="card">
+        <summary>
+          <div class="head"><p class="title">Prompt 4 · Các trang giai đoạn 1</p><span class="pill todo">Chưa làm</span></div>
+          <span class="meta">Giai đoạn 1</span>
+        </summary>
+        <div class="body"><ul>
+          <li>Trang chủ, <code>/ma-giam-gia</code>, <code>/gia-re</code>, <code>/deal/[slug]</code></li>
+          <li><code>/go/[id]</code> ghi click rồi chuyển hướng 302, không index, lọc bot</li>
+          <li>Metadata SEO, sitemap.xml, robots.txt, JSON-LD Product/Offer</li>
+        </ul></div>
+      </details>
+    </li>
+
+    <li class="item" data-s="todo">
+      <div class="dot">5</div>
+      <details class="card">
+        <summary>
+          <div class="head"><p class="title">Prompt 5 · Trang quản trị</p><span class="pill todo">Chưa làm</span></div>
+          <span class="meta">Giai đoạn 1</span>
+        </summary>
+        <div class="body"><ul>
+          <li>Thêm/sửa/xóa Deal và Coupon, upload ảnh, tự tính % giảm, nhận xét KTV</li>
+          <li>Nhân bản deal, bật/tắt nổi bật, thống kê click theo ngày và theo sàn</li>
+          <li>Ưu tiên nhập nhanh trên điện thoại</li>
+        </ul></div>
+      </details>
+    </li>
+
+    <li class="item" data-s="todo">
+      <div class="dot">6</div>
+      <details class="card">
+        <summary>
+          <div class="head"><p class="title">Prompt 6 · Triển khai lên aaPanel</p><span class="pill todo">Chưa làm</span></div>
+          <span class="meta">Giai đoạn 1 · xong bước này là chạy thật</span>
+        </summary>
+        <div class="body"><ul>
+          <li>PM2 (<code>ecosystem.config.js</code>), Nginx reverse proxy, SSL, phục vụ <code>/uploads/</code></li>
+          <li>Script cập nhật: git pull, build, <code>db:deploy</code>, reload</li>
+          <li>Backup MySQL hằng ngày</li>
+        </ul></div>
+      </details>
+    </li>
+
+    <li class="item" data-s="todo">
+      <div class="dot">7</div>
+      <details class="card">
+        <summary>
+          <div class="head"><p class="title">Prompt 7 · Mở rộng nội dung</p><span class="pill todo">Chưa làm</span></div>
+          <span class="meta">Giai đoạn 2 · 1–2 tuần</span>
+        </summary>
+        <div class="body"><ul>
+          <li><code>/ky-thuat-so</code>, <code>/du-lich</code>, <code>/blog</code>, <code>/blog/[slug]</code></li>
+          <li>Lịch sale, job ghi lịch sử giá (chạy bằng cron aaPanel)</li>
+        </ul></div>
+      </details>
+    </li>
+
+    <li class="item" data-s="todo">
+      <div class="dot">8</div>
+      <details class="card">
+        <summary>
+          <div class="head"><p class="title">Prompt 8 · Ăn uống &amp; Spa</p><span class="pill todo">Chưa làm</span></div>
+          <span class="meta">Giai đoạn 3 · 2 tuần</span>
+        </summary>
+        <div class="body"><ul>
+          <li><code>/an-uong</code> lọc quận/loại hình, bản đồ Leaflet</li>
+          <li>Form nhận voucher bằng SĐT: ô đồng ý dữ liệu cá nhân, chống gửi trùng, captcha</li>
+          <li><code>/hop-tac</code>, trang Chính sách bảo mật, đối soát chiết khấu theo tháng</li>
+        </ul></div>
+      </details>
+    </li>
+
+    <li class="item" data-s="todo">
+      <div class="dot">9</div>
+      <details class="card">
+        <summary>
+          <div class="head"><p class="title">Prompt 9 · Tự động hóa</p><span class="pill todo">Chờ tài khoản affiliate</span></div>
+          <span class="meta">Giai đoạn 4 · liên tục</span>
+        </summary>
+        <div class="body"><ul>
+          <li>Job nhập coupon/deal từ API vào trạng thái chờ duyệt</li>
+          <li>Ẩn mã hết hạn mỗi giờ, bot Telegram gửi 5 deal nổi bật/ngày (chỉ deal đã duyệt)</li>
+        </ul></div>
+      </details>
+    </li>
+
+  </ol>
+
+  <footer>Cập nhật lần cuối: 15/11/2026 · Repo: <code>github.com/tainguyen2810/cucre</code></footer>
+</div>
