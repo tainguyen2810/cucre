@@ -43,13 +43,19 @@ Chi tiết từng bảng: `docs/du-lieu.md`. Schema: `prisma/schema.prisma`.
 - VoucherClaim: duy nhất theo (voucherId, phone); lưu `consentAt`. Click và VoucherClaim chỉ lưu `ipHash`, không lưu IP.
 - `npm run db:seed` XÓA dữ liệu nội dung rồi nạp mẫu; không chạy trên production.
 
-## Giao diện (theo thiết kế trong design/)
-- Nền #FFFFFF và #F6F5F2; màu chính đỏ #D92D20 (hover #B42318); nhãn vàng #FEC84B (chữ đen); chữ #1D1D1B; chữ phụ #5F5E59; viền #E7E5E0.
-- Xanh lá cho "KTV nhận xét": nền #ECFDF3, chữ #05603A. Cam cho "Lưu ý": nền #FFFAEB, chữ #93370D.
-- Thẻ bo 14px, viền mảnh, không gradient, không emoji; icon dạng nét (lucide-react).
-- Header mọi trang: logo chữ "cucre.vn" ("cucre" màu đỏ), ô tìm kiếm viền đỏ, chọn khu vực, nút đen "Nhận deal qua Zalo"; menu: Hot deal · Mã giảm giá · Giá rẻ · Kỹ thuật số · Du lịch · Ăn uống & Spa · Blog.
-- Footer luôn có câu: "cucre.vn có thể nhận hoa hồng khi bạn mua qua liên kết. Giá bạn trả không đổi."
-- Responsive tới 390px; vùng bấm tối thiểu 44px; tương phản chữ đạt WCAG AA.
+## Giao diện (theo design/theme-preview.html)
+- Mọi màu, bo góc, cỡ chữ là token trong `app/globals.css` (Tailwind 4 `@theme`). Dùng class token (`bg-brand`, `text-muted`, `rounded-xl`, `text-price`…), KHÔNG viết mã màu trực tiếp.
+  - Thương hiệu: brand #D92D20 (hover #B42318), brand-soft #FEF3F2 (nền coupon), brand-line #F4C7C3, flash #FEC84B (nhãn sale, chữ đen), progress #F79009 (chỉ cho thanh, không cho chữ).
+  - Trung tính: ink #1D1D1B, muted #5F5E59, subtle #6B6963 (giá cũ), line #E7E5E0, line-strong #D6D3CC, placeholder #EFEDE8, canvas #F6F5F2 (nền trang), surface #FFFFFF.
+  - Trạng thái: ok #05603A/#ECFDF3 ("KTV nhận xét"), warn #93370D/#FFFAEB ("Lưu ý"), info #1849A9/#EFF4FF.
+  - Bo góc: sm 6 · md 8 · lg 10 · xl 14 (thẻ) · 2xl 18 (banner) · full (chip). Khoảng cách bậc 4px. Khung tối đa `max-w-site` (1200px).
+  - Cỡ chữ: `text-hero` 44, `text-page` 32, `text-section` 26 (đều 800), tên thẻ 16/600, `text-price` 22/800, nội dung 15, chữ phụ 13.
+- Thẻ viền mảnh, không gradient, không emoji/ký tự ✓; icon dạng nét (lucide-react).
+- Component dùng lại: `components/ui/` (Button/LinkButton/buttonClass, Badge, ChipLink, Price, Pagination, ImageBox) và `components/` (Header, Footer, MainNav, RegionSelect, SearchBox, DealCard, CouponTicket, CopyCodeButton, PlaceCard). Xem tất cả ở `/giao-dien` khi chạy `npm run dev` (trang tắt trên production).
+- Header: logo, ô tìm kiếm viền đỏ (GET `/tim-kiem?q=`), chọn khu vực (cookie `region`: hcm|hn|dn|all, mặc định hcm), nút đen "Nhận deal qua Zalo" (`NEXT_PUBLIC_ZALO_URL`), menu 7 mục trong `lib/site.ts`. Điện thoại: menu là dải chip vuốt ngang.
+- Footer luôn có câu công khai hoa hồng (`SITE.disclosure` trong `lib/site.ts`).
+- Link: dùng helper trong `lib/links.ts` (`goDeal` → /go/123, `goCoupon` → /go/c45, `SPONSORED_LINK`).
+- Responsive tới 390px không cuộn ngang; vùng bấm tối thiểu 44px; tương phản đạt WCAG AA.
 
 ## Quy tắc
 - Toàn bộ chữ hiển thị bằng tiếng Việt có dấu; URL dùng slug không dấu (vd. /deal/ssd-nvme-512gb).

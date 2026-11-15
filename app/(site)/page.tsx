@@ -1,11 +1,9 @@
-// Trang chủ tạm thời – giao diện thật làm ở Prompt 3–4.
+// Trang chủ tạm thời – nội dung thật làm ở Prompt 4.
 export default function HomePage() {
   return (
-    <main className="mx-auto max-w-6xl px-4 py-16">
-      <h1 className="text-3xl font-bold">
-        <span className="text-brand">cucre</span>.vn
-      </h1>
-      <p className="mt-2 text-muted">Đang xây dựng – săn deal cực rẻ mỗi ngày.</p>
-    </main>
+    <section className="flex flex-col gap-2 py-10">
+      <h1 className="text-hero font-extrabold tracking-tight">Săn deal cực rẻ</h1>
+      <p className="text-muted">Kỹ thuật viên soi trước – hàng dỏm không lên. Trang chủ đang được xây dựng.</p>
+    </section>
   );
 }

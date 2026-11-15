@@ -79,11 +79,11 @@ footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
     <h1 class="logo"><b>cucre</b>.vn · tiến độ xây dựng</h1>
     <p class="sub">Theo kế hoạch ngày 15/11/2026. Bấm vào từng mục để xem chi tiết.</p>
     <div class="summary">
-      <span class="pill done">2 xong</span>
+      <span class="pill done">3 xong</span>
       <span class="pill block">1 chờ bạn</span>
-      <span class="pill todo">7 chưa làm</span>
+      <span class="pill todo">6 chưa làm</span>
     </div>
-    <div class="bar" aria-label="Hoàn thành 2 trên 9 prompt"><i style="width:22%"></i></div>
+    <div class="bar" aria-label="Hoàn thành 3 trên 9 prompt"><i style="width:33%"></i></div>
   </header>
 
   <ol class="thread">
@@ -171,12 +171,12 @@ footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
       </details>
     </li>
 
-    <li class="item" data-s="block">
+    <li class="item" data-s="done">
       <div class="dot">3</div>
       <details class="card" open>
         <summary>
-          <div class="head"><p class="title">Prompt 3 · Giao diện chung</p><span class="pill block">Chờ duyệt kế hoạch</span></div>
-          <span class="meta">Giai đoạn 1 · nhánh <code>prompt-3-giao-dien</code></span>
+          <div class="head"><p class="title">Prompt 3 · Giao diện chung</p><span class="pill done">Xong</span></div>
+          <span class="meta">Giai đoạn 1 · nhánh <code>prompt-3-giao-dien</code> · đã lên GitHub, chờ gộp</span>
         </summary>
         <div class="body">
           <div><h3>Rà soát bộ theme</h3><ul>
@@ -195,7 +195,13 @@ footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
             <li>Trang xem thử <code>/giao-dien</code> hiển thị mọi component bằng dữ liệu mẫu từ DB, không cho Google index, chỉ bật khi chạy local (tắt trên production).</li>
             <li>Kiểm tra: build, lint, typecheck; chụp màn hình ở 390px và 1280px để so với theme.</li>
           </ul></div>
-          <div class="note">Cần bạn chọn: danh sách khu vực (đề xuất: TP.HCM mặc định, Hà Nội, Đà Nẵng, Toàn quốc) và link Zalo (OA hay nhóm; chưa có thì mình để biến môi trường, điền sau).</div>
+          <div><h3>Kết quả</h3><ul>
+            <li>Đã làm đủ theo kế hoạch. Khu vực: TP.HCM (mặc định), Hà Nội, Đà Nẵng, Toàn quốc. Link Zalo để ở <code>NEXT_PUBLIC_ZALO_URL</code>, bạn điền sau.</li>
+            <li>Chụp màn hình 390px và 1280px: không cuộn ngang. Sửa 3 lỗi nhỏ trên điện thoại (ô KTV lộ nửa dòng, nhãn “Đã hết hạn” xuống dòng, nút chật).</li>
+            <li>Chọn khu vực được nhớ sau khi tải lại; menu đánh dấu đúng trang; <code>/giao-dien</code> trả 404 trên production.</li>
+            <li>lint, build, typecheck: không lỗi. Ảnh chụp lưu ở <code>docs/screenshots/</code>.</li>
+          </ul></div>
+          <div class="note">Nút mua và nút sao chép mã đã trỏ tới <code>/go/...</code>, nhưng route này làm ở Prompt 4 nên hiện bấm sẽ báo 404. Ô tìm kiếm cũng vậy (<code>/tim-kiem</code>).</div>
         </div>
       </details>
     </li>
