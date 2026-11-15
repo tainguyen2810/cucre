@@ -81,6 +81,7 @@ Chi tiết từng bảng: `docs/du-lieu.md`. Schema: `prisma/schema.prisma`.
 - Trang có bộ lọc trên URL: canonical về trang gốc và `noindex, follow` khi có bộ lọc.
 - Tham số URL: dùng `param()`, `pageParam()`, `hrefWith()` trong `lib/url.ts`.
 - Job: `npm run job:expire` (jobs/expire-items.ts) – cron mỗi giờ; `npm run job:prices` (jobs/record-prices.ts) – cron hằng ngày, ghi giá mỗi deal 1 lần/ngày.
+- Tự động hóa (`docs/tu-dong-hoa.md`): logic dùng chung ở `lib/automation/` (không import server-only/lib/db, nhận PrismaClient làm tham số) cho cả job lẫn Server Action. Adapter nguồn trả `ImportedCoupon`; `importCoupons` luôn tạo ở `pending`, không ghi đè mục admin đã duyệt; mỗi lần chạy ghi `JobRun`. Telegram chỉ lấy deal `published`. Jobs: `npm run job:import` (6 giờ), `npm run job:telegram` (11:30, `-- --dry-run` để xem trước). Duyệt ở `/admin/tu-dong`.
 - Admin còn có `/admin/posts` (bài viết, hẹn giờ đăng) và `/admin/lich-sale`.
 
 ## Trang quản trị (/admin)
@@ -94,7 +95,7 @@ Chi tiết từng bảng: `docs/du-lieu.md`. Schema: `prisma/schema.prisma`.
 ## Lệnh thường dùng
 - `npm run dev` – chạy local (http://localhost:3000)
 - `npm run build` – build production; `npm run lint`; `npm run typecheck` (chạy sau build để có type route)
-- `npm run db:migrate` – tạo migration khi đổi schema rồi sinh lại Prisma client (Prisma 7 không tự sinh); user MySQL cần quyền tạo shadow database
+- `npm run db:migrate -- --name <ten>` – tạo migration khi đổi schema; script `postdb:migrate` tự sinh lại Prisma client (Prisma 7 không tự sinh); user MySQL cần quyền tạo shadow database
 - `npm run db:deploy` – áp migration trên production
 - `npm run db:seed` – XÓA dữ liệu nội dung rồi nạp mẫu + tài khoản admin (SEED_ADMIN_EMAIL/SEED_ADMIN_PASSWORD)
 - `npm run db:studio` – xem dữ liệu

@@ -79,11 +79,10 @@ footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
     <h1 class="logo"><b>cucre</b>.vn · tiến độ xây dựng</h1>
     <p class="sub">Theo kế hoạch ngày 15/11/2026. Bấm vào từng mục để xem chi tiết.</p>
     <div class="summary">
-      <span class="pill done">8 xong</span>
-      <span class="pill block">1 chờ bạn</span>
-      <span class="pill todo">1 chưa làm</span>
+      <span class="pill done">9 xong</span>
+      <span class="pill block">Việc của bạn: giai đoạn 0</span>
     </div>
-    <div class="bar" aria-label="Hoàn thành 8 trên 9 prompt"><i style="width:89%"></i></div>
+    <div class="bar" aria-label="Hoàn thành 9 trên 9 prompt"><i style="width:100%"></i></div>
   </header>
 
   <ol class="thread">
@@ -327,7 +326,7 @@ footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
 
     <li class="item" data-s="done">
       <div class="dot">8</div>
-      <details class="card" open>
+      <details class="card">
         <summary>
           <div class="head"><p class="title">Prompt 8 · Ăn uống &amp; Spa</p><span class="pill done">Xong</span></div>
           <span class="meta">Giai đoạn 3 · đã gộp vào main</span>
@@ -349,17 +348,26 @@ footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
       </details>
     </li>
 
-    <li class="item" data-s="todo">
+    <li class="item" data-s="done">
       <div class="dot">9</div>
-      <details class="card">
+      <details class="card" open>
         <summary>
-          <div class="head"><p class="title">Prompt 9 · Tự động hóa</p><span class="pill todo">Chờ tài khoản affiliate</span></div>
-          <span class="meta">Giai đoạn 4 · liên tục</span>
+          <div class="head"><p class="title">Prompt 9 · Tự động hóa</p><span class="pill done">Xong phần khung</span></div>
+          <span class="meta">Giai đoạn 4 · đã gộp vào main · hướng dẫn: <code>docs/tu-dong-hoa.md</code></span>
         </summary>
-        <div class="body"><ul>
-          <li>Job nhập coupon/deal từ API vào trạng thái chờ duyệt</li>
-          <li>Ẩn mã hết hạn mỗi giờ, bot Telegram gửi 5 deal nổi bật/ngày (chỉ deal đã duyệt)</li>
-        </ul></div>
+        <div class="body">
+          <div><h3>Đã làm</h3><ul>
+            <li>Nhập mã từ Accesstrade (<code>npm run job:import</code>, mỗi 6 giờ): luôn vào <b>Chờ duyệt</b>, không trùng, không ghi đè mã đã duyệt, bỏ mã hết hạn, tự tạo sàn mới.</li>
+            <li>Trang <code>/admin/tu-dong</code>: duyệt/bỏ từng mục hoặc duyệt tất cả, nút “Nhập mã ngay”, xem trước và gửi tin Telegram, nhật ký chạy.</li>
+            <li>Bot Telegram (<code>npm run job:telegram</code>, 11:30): 5 deal nổi bật <b>đã duyệt</b>, có giá, % giảm, nhận xét KTV, câu công khai hoa hồng.</li>
+            <li>Ẩn mã/deal hết hạn mỗi giờ (đã có từ Prompt 4).</li>
+          </ul></div>
+          <div><h3>Đã kiểm tra (bằng server giả lập)</h3><ul>
+            <li>Nhập 2 lần không trùng; key sai báo lỗi; mã chờ duyệt không hiện trên web và <code>/go</code> trả 404; duyệt xong mới hiện.</li>
+            <li>Telegram nhận đúng tin HTML; deal chờ duyệt không bị gửi.</li>
+          </ul></div>
+          <div class="note">Cần bạn: API key Accesstrade, token bot Telegram + kênh. Khi có key thật, đối chiếu lại tên trường API Accesstrade (ghi chú trong code). Đăng lên nhóm Zalo cần Zalo OA – chưa làm.</div>
+        </div>
       </details>
     </li>
 

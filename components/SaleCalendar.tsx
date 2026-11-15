@@ -1,8 +1,9 @@
 import { CalendarDays } from "lucide-react";
 import { db } from "@/lib/db";
 import { daysAgo } from "@/lib/dates";
+import { formatShortDate } from "@/lib/format";
 
-const fmt = (d: Date) => new Intl.DateTimeFormat("vi-VN", { day: "2-digit", month: "2-digit", timeZone: "Asia/Ho_Chi_Minh" }).format(d);
+const fmt = (d: Date) => formatShortDate(d);
 
 function status(startsAt: Date, endsAt: Date, now: number) {
   if (startsAt.getTime() <= now && endsAt.getTime() >= now) return { label: "Đang diễn ra", tone: "bg-brand text-white" };

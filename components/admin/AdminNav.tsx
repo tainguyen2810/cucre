@@ -14,6 +14,7 @@ export const ADMIN_NAV = [
   { href: "/admin/nhan-ma", label: "Khách nhận mã" },
   { href: "/admin/doi-soat", label: "Đối soát" },
   { href: "/admin/hop-tac", label: "Hợp tác" },
+  { href: "/admin/tu-dong", label: "Tự động" },
   { href: "/admin/tai-khoan", label: "Tài khoản" },
 ];
 
