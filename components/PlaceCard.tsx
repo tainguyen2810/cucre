@@ -24,6 +24,7 @@ export type PlaceCardData = {
   ward: string | null;
   images: unknown;
   vouchers: { title: string; price: number; oldPrice: number | null }[];
+  distance?: number | null;
 };
 
 export function PlaceCard({ place }: { place: PlaceCardData }) {
@@ -46,6 +47,7 @@ export function PlaceCard({ place }: { place: PlaceCardData }) {
         <p className="flex items-center gap-1 text-[13px] text-muted">
           <MapPin className="size-3.5 shrink-0" aria-hidden />
           {[place.ward, place.district].filter(Boolean).join(", ")}
+          {place.distance != null ? <span className="ml-auto font-semibold text-ink">{place.distance < 1 ? `${Math.round(place.distance * 1000)} m` : `${place.distance.toFixed(1)} km`}</span> : null}
         </p>
         {voucher ? (
           <>

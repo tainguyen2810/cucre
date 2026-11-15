@@ -79,11 +79,11 @@ footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
     <h1 class="logo"><b>cucre</b>.vn · tiến độ xây dựng</h1>
     <p class="sub">Theo kế hoạch ngày 15/11/2026. Bấm vào từng mục để xem chi tiết.</p>
     <div class="summary">
-      <span class="pill done">7 xong</span>
+      <span class="pill done">8 xong</span>
       <span class="pill block">1 chờ bạn</span>
-      <span class="pill todo">2 chưa làm</span>
+      <span class="pill todo">1 chưa làm</span>
     </div>
-    <div class="bar" aria-label="Hoàn thành 7 trên 9 prompt"><i style="width:78%"></i></div>
+    <div class="bar" aria-label="Hoàn thành 8 trên 9 prompt"><i style="width:89%"></i></div>
   </header>
 
   <ol class="thread">
@@ -301,7 +301,7 @@ footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
 
     <li class="item" data-s="done">
       <div class="dot">7</div>
-      <details class="card" open>
+      <details class="card">
         <summary>
           <div class="head"><p class="title">Prompt 7 · Mở rộng nội dung</p><span class="pill done">Xong</span></div>
           <span class="meta">Giai đoạn 2 · đã gộp vào main</span>
@@ -325,18 +325,27 @@ footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
       </details>
     </li>
 
-    <li class="item" data-s="todo">
+    <li class="item" data-s="done">
       <div class="dot">8</div>
-      <details class="card">
+      <details class="card" open>
         <summary>
-          <div class="head"><p class="title">Prompt 8 · Ăn uống &amp; Spa</p><span class="pill todo">Chưa làm</span></div>
-          <span class="meta">Giai đoạn 3 · 2 tuần</span>
+          <div class="head"><p class="title">Prompt 8 · Ăn uống &amp; Spa</p><span class="pill done">Xong</span></div>
+          <span class="meta">Giai đoạn 3 · đã gộp vào main</span>
         </summary>
-        <div class="body"><ul>
-          <li><code>/an-uong</code> lọc quận/loại hình, bản đồ Leaflet</li>
-          <li>Form nhận voucher bằng SĐT: ô đồng ý dữ liệu cá nhân, chống gửi trùng, captcha</li>
-          <li><code>/hop-tac</code>, trang Chính sách bảo mật, đối soát chiết khấu theo tháng</li>
-        </ul></div>
+        <div class="body">
+          <div><h3>Đã làm</h3><ul>
+            <li><code>/an-uong</code>: lọc loại hình, quận, theo khu vực đã chọn ở header, nút “Gần tôi nhất” (vị trí không lưu), bản đồ Leaflet + OpenStreetMap có nhãn giá.</li>
+            <li><code>/an-uong/binh-tan</code> (trang quận, tốt cho SEO) và <code>/an-uong/[quán]</code>: ảnh, địa chỉ, giờ mở cửa, nút chỉ đường Google Maps, bản đồ, điều kiện, JSON-LD LocalBusiness.</li>
+            <li>Nhận voucher: họ tên + SĐT + ô đồng ý dữ liệu cá nhân; mã duy nhất dạng <code>CR4PJHPX</code>; mỗi SĐT 1 mã/ưu đãi; giới hạn số lượng; 5 mã/giờ/người; bẫy bot; hỗ trợ Cloudflare Turnstile (bật bằng key).</li>
+            <li><code>/hop-tac</code>: lợi ích, quy trình, form đăng ký. <code>/chinh-sach-bao-mat</code>.</li>
+            <li>Admin: quán + ưu đãi, tra mã/SĐT và bấm “Đã dùng”, đối soát chiết khấu theo tháng (xuất CSV mở bằng Excel), đơn hợp tác có trạng thái + ghi chú.</li>
+          </ul></div>
+          <div><h3>Đã kiểm tra</h3><ul>
+            <li>E2E: SĐT sai, thiếu đồng ý, nhận mã thành công, nhận trùng SĐT, hết lượt; gửi đơn hợp tác; admin tra mã → Đã dùng → đối soát đúng (398.000đ × 10% = 39.800đ); CSV đúng; CSV chặn khi chưa đăng nhập.</li>
+            <li>Lọc theo khu vực Hà Nội hiện thông báo chưa có quán; sitemap thêm quận/quán; lint, build, typecheck không lỗi.</li>
+          </ul></div>
+          <div class="note">Cần bạn xem lại: <b>Chính sách bảo mật là bản mẫu</b>, nên nhờ pháp lý rà soát. Thêm thư viện <code>leaflet</code>. Khách nhận trùng SĐT sẽ không được hiện lại mã (tránh lộ mã) – quán tra theo SĐT.</div>
+        </div>
       </details>
     </li>
 

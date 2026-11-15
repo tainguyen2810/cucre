@@ -40,7 +40,7 @@ export default async function AdminHome() {
         <Stat label="Click hôm nay" value={counts.clicksToday} />
         <Stat label="Deal đang hiện" value={counts.activeDeals} href="/admin/deals?trang-thai=published" note={counts.pendingDeals ? `${counts.pendingDeals} chờ duyệt` : undefined} />
         <Stat label="Mã đang chạy" value={counts.activeCoupons} href="/admin/coupons?trang-thai=published" note={counts.pendingCoupons ? `${counts.pendingCoupons} chờ duyệt` : undefined} />
-        <Stat label="Click 14 ngày" value={total14} />
+        <Stat label="Mã voucher phát hôm nay" value={counts.claimsToday} href="/admin/nhan-ma" note={counts.newLeads ? `${counts.newLeads} đơn hợp tác mới` : undefined} />
       </div>
 
       <section className="flex flex-col gap-3 rounded-xl border border-line bg-surface p-4 md:p-5" aria-labelledby="click-ngay">
