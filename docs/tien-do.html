@@ -79,12 +79,11 @@ footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
     <h1 class="logo"><b>cucre</b>.vn · tiến độ xây dựng</h1>
     <p class="sub">Theo kế hoạch ngày 15/11/2026. Bấm vào từng mục để xem chi tiết.</p>
     <div class="summary">
-      <span class="pill done">1 xong</span>
+      <span class="pill done">2 xong</span>
       <span class="pill block">1 chờ bạn</span>
-      <span class="pill wip">1 đang làm</span>
       <span class="pill todo">7 chưa làm</span>
     </div>
-    <div class="bar" aria-label="Hoàn thành 1 trên 9 prompt"><i style="width:11%"></i></div>
+    <div class="bar" aria-label="Hoàn thành 2 trên 9 prompt"><i style="width:22%"></i></div>
   </header>
 
   <ol class="thread">
@@ -137,12 +136,12 @@ footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
       </details>
     </li>
 
-    <li class="item" data-s="block">
+    <li class="item" data-s="done">
       <div class="dot">2</div>
-      <details class="card" open>
+      <details class="card">
         <summary>
-          <div class="head"><p class="title">Prompt 2 · Cơ sở dữ liệu</p><span class="pill block">Chờ duyệt kế hoạch</span></div>
-          <span class="meta">Giai đoạn 1 · nhánh <code>prompt-2-database</code></span>
+          <div class="head"><p class="title">Prompt 2 · Cơ sở dữ liệu</p><span class="pill done">Xong</span></div>
+          <span class="meta">Giai đoạn 1 · nhánh <code>prompt-2-database</code> · đã lên GitHub, chờ gộp vào main</span>
         </summary>
         <div class="body">
           <div><h3>Rà soát</h3><ul>
@@ -160,7 +159,13 @@ footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
             <li>Viết <code>docs/du-lieu.md</code> giải thích ngắn từng bảng; cập nhật phần Dữ liệu trong CLAUDE.md.</li>
             <li>Kiểm tra: migration, seed, build, lint, typecheck.</li>
           </ul></div>
-          <div class="note">Dữ liệu mẫu dùng tên quán và địa chỉ bịa, link affiliate trỏ về trang chủ của sàn, chưa có ảnh. Bạn sẽ thay bằng dữ liệu thật qua trang admin.</div>
+          <div><h3>Kết quả</h3><ul>
+            <li>Đã làm đủ theo kế hoạch. Migration <code>full_schema</code>, giải thích bảng ở <code>docs/du-lieu.md</code>.</li>
+            <li>Seed chạy 2 lần liên tiếp không lỗi: 7 sàn, 22 danh mục, 12 deal, 360 điểm lịch sử giá, 8 coupon, 4 quán + voucher.</li>
+            <li>Tiếng Việt lưu đúng (utf8mb4); cột tìm kiếm không dấu và % giảm tính đúng.</li>
+            <li>lint, build, typecheck: không lỗi.</li>
+          </ul></div>
+          <div class="note">Prisma 7 không tự sinh lại client sau khi migrate, nên <code>npm run db:migrate</code> đã gộp sẵn bước này. Dữ liệu mẫu dùng tên quán bịa, chưa có ảnh.</div>
         </div>
       </details>
     </li>

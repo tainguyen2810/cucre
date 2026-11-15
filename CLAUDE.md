@@ -34,19 +34,14 @@ design/              # file thiết kế tham khảo xuất từ canvas (chỉ �
 ```
 
 ## Dữ liệu (Prisma models)
-- Platform: tên, slug, logo, mạng affiliate.
-- Category: tên, slug, mảng (`product` | `digital` | `travel` | `local`), parentId.
-- Deal: type, title, slug, images, price, oldPrice, discountPercent (tự tính), affiliateUrl, platformId, categoryId, techPros[], techCons[], techVerdict, status (`draft` | `pending` | `published` | `expired`), featured, expiresAt.
-- PriceHistory: dealId, price, recordedAt.
-- Coupon: platformId, code, title, conditions, minOrder, expiresAt, usedPercent, url, status.
-- Place: name, slug, type, address, district, ward, lat, lng, openingHours, images, commissionPercent, contact.
-- Voucher: placeId, title, price, oldPrice, conditions, quantity, expiresAt.
-- VoucherClaim: voucherId, fullName, phone, code (duy nhất), status (`issued` | `used` | `cancelled`), createdAt.
-- PartnerLead: tên quán, loại hình, địa chỉ, người liên hệ, phone, chiết khấu đề xuất, ưu đãi muốn chạy, status.
-- Post: title, slug, category, coverImage, content (Markdown), relatedDealIds, publishedAt.
-- Click: dealId hoặc couponId, platformId, referrer, userAgent (rút gọn), createdAt. Không lưu IP đầy đủ.
-- SaleEvent: name, startsAt, endsAt.
-- AdminUser: email, passwordHash, role.
+Chi tiết từng bảng: `docs/du-lieu.md`. Schema: `prisma/schema.prisma`.
+- Bảng: Platform, Category (cây, theo mảng `product|digital|travel|local`), Deal, PriceHistory, Coupon, Place, Voucher, VoucherClaim, PartnerLead, Post, SaleEvent, Click, AdminUser.
+- Tiền là số nguyên (đồng). Danh sách (images, techPros, techCons) lưu JSON.
+- Cột `titleSearch`/`nameSearch` (không dấu, `toSearchText`) phải cập nhật mỗi khi sửa tiêu đề/tên.
+- `discountPercent` tính bằng `discountPercent()` trong `lib/format.ts` khi lưu Deal.
+- Deal ↔ Coupon (mã dùng kèm) và Post ↔ Deal (deal liên quan) là quan hệ nhiều-nhiều.
+- VoucherClaim: duy nhất theo (voucherId, phone); lưu `consentAt`. Click và VoucherClaim chỉ lưu `ipHash`, không lưu IP.
+- `npm run db:seed` XÓA dữ liệu nội dung rồi nạp mẫu; không chạy trên production.
 
 ## Giao diện (theo thiết kế trong design/)
 - Nền #FFFFFF và #F6F5F2; màu chính đỏ #D92D20 (hover #B42318); nhãn vàng #FEC84B (chữ đen); chữ #1D1D1B; chữ phụ #5F5E59; viền #E7E5E0.
@@ -73,9 +68,9 @@ design/              # file thiết kế tham khảo xuất từ canvas (chỉ �
 ## Lệnh thường dùng
 - `npm run dev` – chạy local (http://localhost:3000)
 - `npm run build` – build production; `npm run lint`; `npm run typecheck` (chạy sau build để có type route)
-- `npm run db:migrate -- --name <ten>` – tạo migration khi đổi schema (user MySQL cần quyền tạo shadow database)
+- `npm run db:migrate` – tạo migration khi đổi schema rồi sinh lại Prisma client (Prisma 7 không tự sinh); user MySQL cần quyền tạo shadow database
 - `npm run db:deploy` – áp migration trên production
-- `npm run db:seed` – nạp dữ liệu mẫu + tài khoản admin (SEED_ADMIN_EMAIL/SEED_ADMIN_PASSWORD)
+- `npm run db:seed` – XÓA dữ liệu nội dung rồi nạp mẫu + tài khoản admin (SEED_ADMIN_EMAIL/SEED_ADMIN_PASSWORD)
 - `npm run db:studio` – xem dữ liệu
 
 ## Cách làm việc
