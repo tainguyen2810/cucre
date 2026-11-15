@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import type { Prisma, Segment } from "@/lib/generated/prisma/client";
 import { categoryWithChildrenIds } from "@/lib/queries/coupons";
 import { activeDealWhere, dealCardSelect } from "@/lib/queries/deals";
+import { toSearchText } from "@/lib/slug";
 
 export const PAGE_SIZE = 24;
 
@@ -28,7 +29,7 @@ const ORDER: Record<string, Prisma.DealOrderByWithRelationInput[]> = {
   "gia-cao": [{ price: "desc" }, { id: "desc" }],
 };
 
-export type DealListingFilters = { gia?: string; danhMuc?: string; san?: string; sapXep?: string; page: number };
+export type DealListingFilters = { gia?: string; danhMuc?: string; san?: string; sapXep?: string; diemDen?: string; q?: string; page: number };
 
 /** Danh sách deal của một mảng, có lọc/sắp xếp/phân trang */
 export async function listDeals(segment: Segment, f: DealListingFilters) {
@@ -44,6 +45,8 @@ export async function listDeals(segment: Segment, f: DealListingFilters) {
     ...(priceWhere ? { price: priceWhere } : {}),
     ...(categoryIds ? { categoryId: { in: categoryIds } } : {}),
     ...(platform ? { platformId: platform.id } : {}),
+    ...(f.diemDen ? { destination: f.diemDen } : {}),
+    ...(f.q ? { AND: toSearchText(f.q).split(" ").filter((w) => w.length >= 2).slice(0, 6).map((w) => ({ OR: [{ titleSearch: { contains: w } }, { destination: { contains: w } }] })) } : {}),
   };
 
   const [total, deals] = await Promise.all([
@@ -75,4 +78,16 @@ export async function listingFilterOptions(segment: Segment) {
     select: { name: true, slug: true },
   });
   return { categories, platforms };
+}
+
+/** Điểm đến có nhiều deal du lịch đang chạy nhất */
+export async function hotDestinations(take = 8) {
+  const rows = await db.deal.groupBy({
+    by: ["destination"],
+    where: { ...activeDealWhere(), type: "travel", destination: { not: null } },
+    _count: { _all: true },
+    orderBy: { _count: { destination: "desc" } },
+    take,
+  });
+  return rows.filter((r) => r.destination).map((r) => ({ name: r.destination as string, count: r._count._all }));
 }

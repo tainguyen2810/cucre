@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { CouponList } from "@/components/CouponList";
+import { SaleCalendar } from "@/components/SaleCalendar";
 import { categoryWithChildrenIds, couponIndustries, getCoupons, platformsWithCoupons } from "@/lib/queries/coupons";
 import { param } from "@/lib/url";
 
@@ -37,6 +38,7 @@ export default async function CouponsPage({ searchParams }: PageProps<"/ma-giam-
       industry={categoryIds ? industry : undefined}
       showExpired={showExpired}
       coupons={coupons}
+      aside={showExpired ? null : <SaleCalendar />}
     />
   );
 }

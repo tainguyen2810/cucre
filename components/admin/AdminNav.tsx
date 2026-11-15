@@ -8,6 +8,8 @@ export const ADMIN_NAV = [
   { href: "/admin", label: "Tổng quan" },
   { href: "/admin/deals", label: "Deal" },
   { href: "/admin/coupons", label: "Mã giảm giá" },
+  { href: "/admin/posts", label: "Bài viết" },
+  { href: "/admin/lich-sale", label: "Lịch sale" },
   { href: "/admin/tai-khoan", label: "Tài khoản" },
 ];
 
