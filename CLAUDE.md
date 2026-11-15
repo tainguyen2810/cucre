@@ -78,6 +78,14 @@ Chi tiết từng bảng: `docs/du-lieu.md`. Schema: `prisma/schema.prisma`.
 - Tham số URL: dùng `param()`, `pageParam()`, `hrefWith()` trong `lib/url.ts`.
 - Job: `npm run job:expire` (jobs/expire-items.ts) – cron mỗi giờ.
 
+## Trang quản trị (/admin)
+- `/admin/login` (route group `(auth)`), các trang còn lại trong `(panel)` – layout gọi `requireAdmin()`. Mọi Server Action admin cũng phải gọi `requireAdmin()` (lib/admin/auth.ts). Đăng nhập sai 5 lần/15 phút/IP bị chặn tạm.
+- Form admin dùng `useFormAction` (components/admin/useFormAction.ts) thay cho `<form action>` để React không xóa trắng form khi báo lỗi; nút gửi là `SubmitButton pending={pending}`.
+- Lưu Deal: tự tính `discountPercent`, `titleSearch`, slug không trùng (`uniqueSlug`), `publishedAt` lần đầu đăng, và ghi `PriceHistory` khi tạo hoặc khi giá đổi.
+- Ảnh: client gửi từng ảnh tới `POST /api/upload` (cần đăng nhập) → sharp thu nhỏ 1200px, WebP, lưu `UPLOAD_DIR/yyyy/mm/`; URL dạng `/uploads/...` lưu trong cột JSON `images`. Local: route `app/uploads/[...path]` phục vụ file; production: Nginx phục vụ `/uploads/`.
+- Thống kê: `lib/admin/stats.ts` (click theo ngày giờ VN, theo sàn, top deal; "người" = COUNT DISTINCT ipHash).
+- Ngày giờ trong form: `toLocalInput` / `fromLocalInput` (giờ VN) trong lib/admin/form.ts.
+
 ## Lệnh thường dùng
 - `npm run dev` – chạy local (http://localhost:3000)
 - `npm run build` – build production; `npm run lint`; `npm run typecheck` (chạy sau build để có type route)
@@ -87,6 +95,6 @@ Chi tiết từng bảng: `docs/du-lieu.md`. Schema: `prisma/schema.prisma`.
 - `npm run db:studio` – xem dữ liệu
 
 ## Cách làm việc
-- Trước mỗi prompt: rà soát yêu cầu và code hiện có, viết kế hoạch triển khai (việc sẽ làm, quyết định kỹ thuật, điểm cần chủ dự án chọn), cập nhật vào `docs/tien-do.html`, và CHỜ duyệt rồi mới code.
+- Trước mỗi prompt: rà soát yêu cầu và code hiện có, viết kế hoạch triển khai (việc sẽ làm, quyết định kỹ thuật, điểm cần chủ dự án chọn), cập nhật vào `docs/tien-do.html`. (Từ Prompt 5, chủ dự án cho phép tự làm hết không chờ duyệt và tự gộp PR vào `main` khi xong mỗi prompt; ghi rõ các giả định để chủ dự án sửa sau.)
 - Mỗi prompt làm trên một nhánh git riêng; xong thì chạy build/lint/typecheck, tóm tắt thay đổi, cập nhật trang tiến độ.
 - Ưu tiên đơn giản, dễ bảo trì cho một người quản trị; hỏi lại trước khi thêm dịch vụ trả phí hoặc thư viện lớn.
