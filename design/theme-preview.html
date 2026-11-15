@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>cucre.vn – Bộ theme</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--brand:#D92D20;--brand-hover:#B42318;--brand-soft:#FEF3F2;--brand-line:#F4C7C3;--flash:#FEC84B;--progress:#F79009;--ink:#1D1D1B;--muted:#5F5E59;--subtle:#6B6963;--line:#E7E5E0;--line-strong:#D6D3CC;--ph:#EFEDE8;--canvas:#F6F5F2;--ok-bg:#ECFDF3;--ok:#05603A;--warn-bg:#FFFAEB;--warn:#93370D;--info-bg:#EFF4FF;--info:#1849A9}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Be Vietnam Pro',system-ui,sans-serif;color:var(--ink);background:var(--canvas);font-size:15px;line-height:1.5}
+.wrap{max-width:1100px;margin:0 auto;padding:40px 24px 64px;display:flex;flex-direction:column;gap:48px}
+h1{margin:0;font-size:40px;font-weight:800;letter-spacing:-1px}
+h2{margin:0 0 16px;font-size:24px;font-weight:800}
+h3{margin:0 0 10px;font-size:15px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.muted{color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.sw{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.sw div{height:72px}
+.sw p{margin:0;padding:10px 12px;font-size:13px;line-height:1.4}
+.sw b{display:block;font-size:13px}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 18px;border-radius:10px;border:none;font:inherit;font-weight:700;font-size:14px;cursor:pointer;text-decoration:none}
+.p{background:var(--brand);color:#fff}.p:hover{background:var(--brand-hover)}
+.d{background:var(--ink);color:#fff}
+.o{background:#fff;color:var(--brand);border:2px solid var(--brand)}
+.l{background:#fff;color:var(--ink);border:1px solid var(--line-strong)}
+.chip{min-height:44px;padding:0 16px;border-radius:999px;border:1px solid var(--line-strong);background:#fff;font:inherit;font-weight:600;font-size:14px}
+.chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.bd{background:var(--brand);color:#fff;font-weight:800;font-size:13px;padding:4px 9px;border-radius:6px}
+.bp{background:#fff;border:1px solid var(--line);font-weight:600;font-size:12px;padding:4px 9px;border-radius:6px}
+.bf{background:var(--flash);font-weight:700;font-size:12px;padding:5px 10px;border-radius:999px}
+.bv{background:var(--ok-bg);color:var(--ok);font-weight:700;font-size:12px;padding:3px 8px;border-radius:6px}
+.type div{display:flex;gap:20px;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--line)}
+.type span.k{width:150px;flex:none;font-size:13px;color:var(--muted)}
+.pc{width:250px;background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.img{position:relative;height:160px;background:var(--ph);display:flex;align-items:center;justify-content:center;color:var(--subtle);font-size:13px}
+.img .bd{position:absolute;top:10px;left:10px}.img .bp{position:absolute;top:10px;right:10px}
+.pb{padding:14px;display:flex;flex-direction:column;gap:8px}
+.price{font-size:20px;font-weight:800;color:var(--brand)}.old{font-size:13px;color:var(--subtle);text-decoration:line-through}
+.note{background:var(--ok-bg);color:var(--ok);font-size:13px;padding:8px 10px;border-radius:8px}
+.warnn{background:var(--warn-bg);color:var(--warn);font-size:13px;padding:8px 10px;border-radius:8px}
+.cp{display:flex;width:420px;max-width:100%;background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.stub{width:92px;flex:none;background:var(--brand-soft);border-right:2px dashed var(--brand-line);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.code{flex:1;font-family:ui-monospace,Consolas,monospace;font-weight:700;padding:10px;border:1px dashed var(--line-strong);border-radius:8px;text-align:center}
+.field{min-height:46px;padding:0 14px;border:1px solid var(--line-strong);border-radius:10px;font:inherit;font-size:15px;width:260px}
+.fs{border:2px solid var(--brand)}
+.sc{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-end}
+.sc div{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
+.sc span{display:block;background:var(--brand-soft);border:1px solid var(--brand-line)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header style="display:flex;flex-direction:column;gap:8px">
+<span style="font-size:30px;font-weight:800;letter-spacing:-.5px"><span style="color:var(--brand)">cucre</span>.vn</span>
+<h1>Bộ theme</h1>
+<p class="muted" style="margin:0">Màu, chữ, bo góc, khoảng cách và các thành phần giao diện dùng chung. Nguồn: theme/tokens.json và theme/theme.css.</p>
+</header>
+
+<section>
+<h2>Màu sắc</h2>
+<h3>Thương hiệu</h3>
+<div class="grid">
+<div class="sw"><div style="background:#D92D20"></div><p><b>brand</b>#D92D20 · nút, giá</p></div>
+<div class="sw"><div style="background:#B42318"></div><p><b>brand-hover</b>#B42318</p></div>
+<div class="sw"><div style="background:#FEF3F2"></div><p><b>brand-soft</b>#FEF3F2 · nền coupon</p></div>
+<div class="sw"><div style="background:#F4C7C3"></div><p><b>brand-line</b>#F4C7C3</p></div>
+<div class="sw"><div style="background:#FEC84B"></div><p><b>flash</b>#FEC84B · nhãn sale</p></div>
+<div class="sw"><div style="background:#F79009"></div><p><b>progress</b>#F79009</p></div>
+</div>
+<h3 style="margin-top:20px">Trung tính</h3>
+<div class="grid">
+<div class="sw"><div style="background:#1D1D1B"></div><p><b>ink</b>#1D1D1B · chữ chính</p></div>
+<div class="sw"><div style="background:#5F5E59"></div><p><b>muted</b>#5F5E59 · chữ phụ</p></div>
+<div class="sw"><div style="background:#6B6963"></div><p><b>subtle</b>#6B6963 · giá cũ</p></div>
+<div class="sw"><div style="background:#D6D3CC"></div><p><b>line-strong</b>#D6D3CC</p></div>
+<div class="sw"><div style="background:#E7E5E0"></div><p><b>line</b>#E7E5E0 · viền thẻ</p></div>
+<div class="sw"><div style="background:#EFEDE8"></div><p><b>placeholder</b>#EFEDE8</p></div>
+<div class="sw"><div style="background:#F6F5F2"></div><p><b>canvas</b>#F6F5F2 · nền trang</p></div>
+<div class="sw"><div style="background:#FFFFFF"></div><p><b>surface</b>#FFFFFF</p></div>
+</div>
+<h3 style="margin-top:20px">Trạng thái</h3>
+<div class="grid">
+<div class="sw"><div style="background:#ECFDF3;display:flex;align-items:center;justify-content:center;color:#05603A;font-weight:700">Aa</div><p><b>success</b>#05603A / #ECFDF3</p></div>
+<div class="sw"><div style="background:#FFFAEB;display:flex;align-items:center;justify-content:center;color:#93370D;font-weight:700">Aa</div><p><b>warning</b>#93370D / #FFFAEB</p></div>
+<div class="sw"><div style="background:#EFF4FF;display:flex;align-items:center;justify-content:center;color:#1849A9;font-weight:700">Aa</div><p><b>info</b>#1849A9 / #EFF4FF</p></div>
+</div>
+</section>
+
+<section class="card" style="padding:24px">
+<h2>Chữ – Be Vietnam Pro</h2>
+<div class="type">
+<div><span class="k">Hero · 44/800</span><span style="font-size:44px;font-weight:800;letter-spacing:-1px">Săn deal cực rẻ</span></div>
+<div><span class="k">Tiêu đề trang · 32/800</span><span style="font-size:32px;font-weight:800">Mã giảm giá hôm nay</span></div>
+<div><span class="k">Tiêu đề mục · 26/800</span><span style="font-size:26px;font-weight:800">Deal công nghệ giá rẻ</span></div>
+<div><span class="k">Tên thẻ · 16/600</span><span style="font-size:16px;font-weight:600">Bàn phím cơ không dây</span></div>
+<div><span class="k">Giá · 22/800</span><span style="font-size:22px;font-weight:800;color:var(--brand)">1.290.000đ</span></div>
+<div><span class="k">Nội dung · 15/400</span><span>Kỹ thuật viên soi trước – hàng dỏm không lên.</span></div>
+<div><span class="k">Chữ phụ · 13/400</span><span class="muted" style="font-size:13px">Điện tử · HSD 15/12</span></div>
+</div>
+</section>
+
+<section>
+<h2>Nút &amp; điều khiển</h2>
+<div class="row" style="margin-bottom:16px">
+<button class="btn p">Lấy deal</button><button class="btn d">Nhận deal qua Zalo</button><button class="btn o">Nhận voucher</button><button class="btn l">Chỉ đường</button>
+</div>
+<div class="row" style="margin-bottom:16px">
+<button class="chip on" aria-pressed="true">Tất cả</button><button class="chip">Shopee</button><button class="chip">Lazada</button><button class="chip">Dưới 99k</button>
+</div>
+<div class="row">
+<input class="field fs" type="search" placeholder="Tìm deal, mã giảm giá..." aria-label="Tìm deal">
+<input class="field" type="text" placeholder="Họ tên" aria-label="Họ tên">
+</div>
+</section>
+
+<section>
+<h2>Nhãn</h2>
+<div class="row"><span class="bd">-35%</span><span class="bp">Shopee</span><span class="bf">FLASH SALE 12.12</span><span class="bv">✓ KTV đã kiểm tra</span><span class="bv">Chính hãng · Có hóa đơn</span></div>
+</section>
+
+<section>
+<h2>Thành phần</h2>
+<div class="row" style="align-items:flex-start;gap:24px">
+<article class="pc"><div class="img">[Ảnh]<span class="bd">-35%</span><span class="bp">Shopee</span></div><div class="pb"><strong style="font-weight:600">SSD NVMe 512GB</strong><div><span class="price">890.000đ</span> <span class="old">1.390.000đ</span></div><div class="note"><b>KTV nhận xét:</b> hàng chính hãng, đủ cho laptop văn phòng.</div><a href="#" class="btn p">Lấy deal</a></div></article>
+<div style="display:flex;flex-direction:column;gap:16px">
+<div class="cp"><div class="stub"><span style="font-size:24px;font-weight:800;color:var(--brand)">-50k</span><span class="muted" style="font-size:12px;font-weight:600">Shopee</span></div><div style="flex:1;padding:14px 16px;display:flex;flex-direction:column;gap:8px"><strong>Giảm 50k đơn từ 300k</strong><span class="muted" style="font-size:13px">Điện tử · HSD 15/12</span><div class="row" style="gap:8px"><code class="code">MÃ-MẪU</code><button class="btn p">Sao chép</button></div></div></div>
+<div class="warnn" style="max-width:420px"><b>Lưu ý:</b> cổng HDMI chỉ 30Hz, đủ cho văn phòng.</div>
+</div>
+</div>
+</section>
+
+<section class="card" style="padding:24px">
+<h2>Bo góc &amp; khoảng cách</h2>
+<div class="sc" style="margin-bottom:20px">
+<div><span style="width:56px;height:56px;border-radius:6px"></span>sm 6</div>
+<div><span style="width:56px;height:56px;border-radius:8px"></span>md 8</div>
+<div><span style="width:56px;height:56px;border-radius:10px"></span>lg 10</div>
+<div><span style="width:56px;height:56px;border-radius:14px"></span>xl 14 · thẻ</div>
+<div><span style="width:56px;height:56px;border-radius:18px"></span>2xl 18 · banner</div>
+<div><span style="width:56px;height:56px;border-radius:999px"></span>full · chip</div>
+</div>
+<p class="muted" style="margin:0">Khoảng cách theo bậc 4px: 4 · 8 · 12 · 16 · 20 · 24 · 32 · 48. Khung nội dung tối đa 1200px, lề 24px. Vùng bấm tối thiểu 44px.</p>
+</section>
+</div>
+</body>
+</html>
