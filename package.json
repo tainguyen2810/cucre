@@ -13,7 +13,9 @@
     "db:deploy": "prisma migrate deploy",
     "db:seed": "prisma db seed",
     "db:studio": "prisma studio",
-    "job:expire": "tsx jobs/expire-items.ts"
+    "job:expire": "tsx jobs/expire-items.ts",
+    "admin:create": "tsx scripts/create-admin.ts",
+    "backup": "bash scripts/backup-mysql.sh"
   },
   "dependencies": {
     "@prisma/adapter-mariadb": "^7.10.1",

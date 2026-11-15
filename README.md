@@ -57,6 +57,13 @@ Yêu cầu: Node.js ≥ 20.19, MySQL 8 (hoặc MariaDB ≥ 10.6).
 | `npm run db:deploy` | Áp migration trên server |
 | `npm run db:seed` | Nạp dữ liệu mẫu |
 | `npm run db:studio` | Giao diện xem dữ liệu |
+| `npm run job:expire` | Chuyển deal/mã quá hạn sang hết hạn (cron mỗi giờ) |
+| `npm run admin:create -- email` | Tạo/đặt lại admin (cần `ADMIN_PASSWORD`) |
+| `npm run backup` | Sao lưu MySQL |
+
+## Triển khai
+
+Xem [docs/trien-khai.md](docs/trien-khai.md): aaPanel, PM2, Nginx, SSL, cron, sao lưu, cập nhật phiên bản (`bash scripts/deploy.sh`).
 
 ## Cấu trúc
 
