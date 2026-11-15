@@ -81,7 +81,8 @@ footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
     <div class="summary">
       <span class="pill done">1 xong</span>
       <span class="pill block">1 chờ bạn</span>
-      <span class="pill todo">8 chưa làm</span>
+      <span class="pill wip">1 đang làm</span>
+      <span class="pill todo">7 chưa làm</span>
     </div>
     <div class="bar" aria-label="Hoàn thành 1 trên 9 prompt"><i style="width:11%"></i></div>
   </header>
@@ -99,7 +100,7 @@ footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
           <ul class="checks">
             <li class="ok">Tạo repo GitHub: <code>tainguyen2810/cucre</code></li>
             <li class="ok">File <code>CLAUDE.md</code> đã có trong dự án</li>
-            <li class="no">Xác nhận để mình đẩy code lên GitHub (code hiện chỉ nằm trên máy cloud tạm)</li>
+            <li class="ok">Code đã đẩy lên GitHub, nhánh <code>main</code></li>
             <li class="no">Xuất file thiết kế từ canvas, gửi để đặt vào <code>design/</code> (cần cho Prompt 3)</li>
             <li>Đăng ký Shopee Affiliate, Accesstrade, Klook, Agoda/Traveloka</li>
             <li>Kiểm tra mạng affiliate nào có API coupon/datafeed</li>
@@ -116,7 +117,7 @@ footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
       <details class="card">
         <summary>
           <div class="head"><p class="title">Prompt 1 · Khởi tạo dự án</p><span class="pill done">Xong</span></div>
-          <span class="meta">Giai đoạn 1 · MVP · đã commit, chưa đẩy lên GitHub</span>
+          <span class="meta">Giai đoạn 1 · MVP · đã lên GitHub nhánh main</span>
         </summary>
         <div class="body">
           <div><h3>Đã làm</h3><ul>
@@ -136,12 +137,12 @@ footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
       </details>
     </li>
 
-    <li class="item" data-s="todo">
+    <li class="item" data-s="wip">
       <div class="dot">2</div>
       <details class="card">
         <summary>
-          <div class="head"><p class="title">Prompt 2 · Cơ sở dữ liệu</p><span class="pill todo">Làm tiếp theo</span></div>
-          <span class="meta">Giai đoạn 1 · không cần file thiết kế</span>
+          <div class="head"><p class="title">Prompt 2 · Cơ sở dữ liệu</p><span class="pill wip">Đang làm</span></div>
+          <span class="meta">Giai đoạn 1 · nhánh <code>prompt-2-database</code></span>
         </summary>
         <div class="body"><ul>
           <li>13 bảng: Platform, Category, Deal, PriceHistory, Coupon, Place, Voucher, VoucherClaim, PartnerLead, Post, Click, SaleEvent, AdminUser</li>
