@@ -2,14 +2,14 @@ import { Search } from "lucide-react";
 import { cn } from "@/lib/cn";
 
 /** Ô tìm kiếm viền đỏ – gửi GET tới /tim-kiem?q= */
-export function SearchBox({ className, defaultValue }: { className?: string; defaultValue?: string }) {
+export function SearchBox({ className, defaultValue, id = "site-search" }: { className?: string; defaultValue?: string; id?: string }) {
   return (
     <form action="/tim-kiem" role="search" className={cn("relative", className)}>
-      <label htmlFor="site-search" className="sr-only">
+      <label htmlFor={id} className="sr-only">
         Tìm deal, mã giảm giá
       </label>
       <input
-        id="site-search"
+        id={id}
         name="q"
         type="search"
         defaultValue={defaultValue}

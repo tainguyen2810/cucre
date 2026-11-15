@@ -17,6 +17,8 @@ export const metadata: Metadata = {
   },
   description:
     "Mã giảm giá Shopee, Lazada, TikTok Shop, deal đồ công nghệ, phần mềm bản quyền, du lịch và ăn uống giá tốt – có nhận xét của kỹ thuật viên.",
+  openGraph: { siteName: "cucre.vn", locale: "vi_VN", type: "website" },
+  formatDetection: { telephone: false },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

@@ -34,3 +34,6 @@ export const REGION_COOKIE = "region";
 export function parseRegion(value: string | undefined): RegionValue {
   return REGIONS.some((r) => r.value === value) ? (value as RegionValue) : DEFAULT_REGION;
 }
+
+/** URL gốc của site, dùng cho canonical, sitemap, JSON-LD */
+export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000").replace(/\/$/, "");
