@@ -79,11 +79,11 @@ footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
     <h1 class="logo"><b>cucre</b>.vn · tiến độ xây dựng</h1>
     <p class="sub">Theo kế hoạch ngày 15/11/2026. Bấm vào từng mục để xem chi tiết.</p>
     <div class="summary">
-      <span class="pill done">4 xong</span>
+      <span class="pill done">5 xong</span>
       <span class="pill block">1 chờ bạn</span>
-      <span class="pill todo">5 chưa làm</span>
+      <span class="pill todo">4 chưa làm</span>
     </div>
-    <div class="bar" aria-label="Hoàn thành 4 trên 9 prompt"><i style="width:44%"></i></div>
+    <div class="bar" aria-label="Hoàn thành 5 trên 9 prompt"><i style="width:56%"></i></div>
   </header>
 
   <ol class="thread">
@@ -142,7 +142,7 @@ footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
       <details class="card">
         <summary>
           <div class="head"><p class="title">Prompt 2 · Cơ sở dữ liệu</p><span class="pill done">Xong</span></div>
-          <span class="meta">Giai đoạn 1 · nhánh <code>prompt-2-database</code> · đã lên GitHub, chờ gộp vào main</span>
+          <span class="meta">Giai đoạn 1 · nhánh <code>prompt-2-database</code> · đã gộp vào main</span>
         </summary>
         <div class="body">
           <div><h3>Rà soát</h3><ul>
@@ -176,7 +176,7 @@ footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
       <details class="card">
         <summary>
           <div class="head"><p class="title">Prompt 3 · Giao diện chung</p><span class="pill done">Xong</span></div>
-          <span class="meta">Giai đoạn 1 · nhánh <code>prompt-3-giao-dien</code> · đã lên GitHub, chờ gộp</span>
+          <span class="meta">Giai đoạn 1 · nhánh <code>prompt-3-giao-dien</code> · đã gộp vào main</span>
         </summary>
         <div class="body">
           <div><h3>Rà soát bộ theme</h3><ul>
@@ -206,12 +206,12 @@ footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
       </details>
     </li>
 
-    <li class="item" data-s="todo">
+    <li class="item" data-s="done">
       <div class="dot">4</div>
-      <details class="card" open>
+      <details class="card">
         <summary>
           <div class="head"><p class="title">Prompt 4 · Các trang giai đoạn 1</p><span class="pill done">Xong</span></div>
-          <span class="meta">Giai đoạn 1 · nhánh <code>prompt-4-trang</code> · đã lên GitHub, chờ gộp</span>
+          <span class="meta">Giai đoạn 1 · nhánh <code>prompt-4-trang</code> · đã gộp vào main</span>
         </summary>
         <div class="body">
           <div><h3>Rà soát</h3><ul>
@@ -249,18 +249,29 @@ footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
       </details>
     </li>
 
-    <li class="item" data-s="todo">
+    <li class="item" data-s="done">
       <div class="dot">5</div>
-      <details class="card">
+      <details class="card" open>
         <summary>
-          <div class="head"><p class="title">Prompt 5 · Trang quản trị</p><span class="pill todo">Chưa làm</span></div>
-          <span class="meta">Giai đoạn 1</span>
+          <div class="head"><p class="title">Prompt 5 · Trang quản trị</p><span class="pill done">Xong</span></div>
+          <span class="meta">Giai đoạn 1 · nhánh <code>prompt-5-admin</code> · tự làm theo yêu cầu, đã gộp vào main</span>
         </summary>
-        <div class="body"><ul>
-          <li>Thêm/sửa/xóa Deal và Coupon, upload ảnh, tự tính % giảm, nhận xét KTV</li>
-          <li>Nhân bản deal, bật/tắt nổi bật, thống kê click theo ngày và theo sàn</li>
-          <li>Ưu tiên nhập nhanh trên điện thoại</li>
-        </ul></div>
+        <div class="body">
+          <div><h3>Đã làm</h3><ul>
+            <li><code>/admin/login</code>: đăng nhập email + mật khẩu, sai 5 lần/15 phút bị chặn tạm; mọi trang và thao tác admin đều kiểm tra đăng nhập.</li>
+            <li>Tổng quan: click hôm nay, deal/mã đang chạy và chờ duyệt, biểu đồ click 14 ngày, click theo sàn (lượt và người), 10 deal nhiều click nhất.</li>
+            <li>Deal: danh sách có tìm/lọc, bấm sao để bật/tắt nổi bật; form thêm/sửa với upload nhiều ảnh (tự thu nhỏ, WebP), giá tự định dạng và tự tính % giảm, nhận xét KTV, mã dùng kèm, hạn dùng; nhân bản (bản sao ở trạng thái Nháp); xóa 2 bước.</li>
+            <li>Mã giảm giá: danh sách, thêm/sửa/nhân bản/xóa, mã tự viết hoa.</li>
+            <li>Tài khoản: đổi mật khẩu, đăng xuất. Giao diện ưu tiên điện thoại, nút Lưu luôn dính ở cuối màn hình.</li>
+            <li>Lưu deal tự ghi lịch sử giá khi tạo và khi đổi giá, nên biểu đồ giá sẽ có dữ liệu thật theo thời gian.</li>
+          </ul></div>
+          <div><h3>Đã kiểm tra</h3><ul>
+            <li>Chạy tự động bằng trình duyệt ở khổ điện thoại: đăng nhập sai/đúng, tạo deal có ảnh, sửa giá, báo lỗi khi giá gốc nhỏ hơn giá bán, nhân bản, xóa, bật nổi bật, tạo mã; ảnh hiện trên trang công khai.</li>
+            <li>Sửa lỗi phát sinh: React 19 tự xóa trắng form sau khi gửi (mất dữ liệu khi báo lỗi) – đã đổi cách gửi form.</li>
+            <li>lint, build, typecheck: không lỗi.</li>
+          </ul></div>
+          <div class="note">Giả định để bạn xem lại: chưa có quản lý nhiều tài khoản admin (thêm qua seed); chưa có thùng rác khi xóa deal; thống kê đếm “người” theo mã băm IP trong ngày.</div>
+        </div>
       </details>
     </li>
 
