@@ -79,11 +79,11 @@ footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
     <h1 class="logo"><b>cucre</b>.vn · tiến độ xây dựng</h1>
     <p class="sub">Theo kế hoạch ngày 15/11/2026. Bấm vào từng mục để xem chi tiết.</p>
     <div class="summary">
-      <span class="pill done">2 xong</span>
+      <span class="pill done">3 xong</span>
       <span class="pill block">1 chờ bạn</span>
-      <span class="pill todo">7 chưa làm</span>
+      <span class="pill todo">6 chưa làm</span>
     </div>
-    <div class="bar" aria-label="Hoàn thành 2 trên 9 prompt"><i style="width:22%"></i></div>
+    <div class="bar" aria-label="Hoàn thành 3 trên 9 prompt"><i style="width:33%"></i></div>
   </header>
 
   <ol class="thread">
@@ -100,7 +100,8 @@ footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
             <li class="ok">Tạo repo GitHub: <code>tainguyen2810/cucre</code></li>
             <li class="ok">File <code>CLAUDE.md</code> đã có trong dự án</li>
             <li class="ok">Code đã đẩy lên GitHub, nhánh <code>main</code></li>
-            <li class="no">Xuất file thiết kế từ canvas, gửi để đặt vào <code>design/</code> (cần cho Prompt 3)</li>
+            <li class="ok">Bộ theme (màu, chữ, nút, nhãn, thẻ) đã lưu vào <code>design/theme-preview.html</code></li>
+            <li>Thiết kế bố cục 12 trang (header, trang chủ, chi tiết deal…) – chưa có, cần cho Prompt 4</li>
             <li>Đăng ký Shopee Affiliate, Accesstrade, Klook, Agoda/Traveloka</li>
             <li>Kiểm tra mạng affiliate nào có API coupon/datafeed</li>
             <li>Trỏ DNS cucre.vn, tạo site aaPanel, cài Node 20+, PM2, MySQL 8</li>
@@ -170,18 +171,38 @@ footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
       </details>
     </li>
 
-    <li class="item" data-s="block">
+    <li class="item" data-s="done">
       <div class="dot">3</div>
-      <details class="card">
+      <details class="card" open>
         <summary>
-          <div class="head"><p class="title">Prompt 3 · Giao diện chung</p><span class="pill block">Cần file thiết kế</span></div>
-          <span class="meta">Giai đoạn 1</span>
+          <div class="head"><p class="title">Prompt 3 · Giao diện chung</p><span class="pill done">Xong</span></div>
+          <span class="meta">Giai đoạn 1 · nhánh <code>prompt-3-giao-dien</code> · đã lên GitHub, chờ gộp</span>
         </summary>
-        <div class="body"><ul>
-          <li>Header (logo, ô tìm kiếm viền đỏ, chọn khu vực, nút Zalo, menu 7 mục), footer có câu công khai hoa hồng</li>
-          <li>Component: DealCard, CouponTicket, PlaceCard, Badge, Chip, Pagination</li>
-          <li>Responsive tới 390px</li>
-        </ul></div>
+        <div class="body">
+          <div><h3>Rà soát bộ theme</h3><ul>
+            <li>Theme có thêm màu mà CLAUDE.md chưa ghi: nền coupon, viền coupon, cam thanh tiến độ, chữ giá cũ, viền đậm, nền ảnh trống, xanh dương “thông tin”. Có thang bo góc 6/8/10/14/18, khoảng cách bậc 4px, khung tối đa 1200px.</li>
+            <li>Theme nhắc tới <code>theme/tokens.json</code> và <code>theme/theme.css</code> nhưng mình chưa nhận được. Không bắt buộc: mình lấy đủ giá trị từ file xem trước.</li>
+            <li>Nhãn “✓ KTV đã kiểm tra” dùng ký tự ✓; CLAUDE.md quy định icon dạng nét, nên thay bằng icon Check của lucide.</li>
+            <li>Tương phản: các cặp chữ/nền đều đạt AA. Màu cam tiến độ chỉ dùng cho thanh, không dùng cho chữ.</li>
+            <li>Đây là bộ theme, chưa phải bố cục trang. Header, footer và bản điện thoại sẽ dựng theo mô tả trong CLAUDE.md.</li>
+          </ul></div>
+          <div><h3>Kế hoạch</h3><ul>
+            <li>Đưa toàn bộ màu, bo góc, cỡ chữ vào <code>app/globals.css</code> (Tailwind 4), cập nhật phần Giao diện trong CLAUDE.md.</li>
+            <li>Header: logo, ô tìm kiếm viền đỏ (gửi tới <code>/tim-kiem?q=</code>), chọn khu vực (lưu cookie), nút đen “Nhận deal qua Zalo”, menu 7 mục có đánh dấu trang đang xem.</li>
+            <li>Điện thoại 390px: logo + nút Zalo thu gọn ở hàng trên, ô tìm kiếm rộng hết hàng thứ hai, menu thành dải chip vuốt ngang (không dùng menu hamburger để khách thấy ngay các mảng).</li>
+            <li>Footer: câu công khai hoa hồng, liên kết các mảng, Hợp tác, Chính sách bảo mật, thông tin công ty ITSO.</li>
+            <li>Component: Button, Badge, Chip, Price, DealCard (có khối “KTV nhận xét”, ảnh trống khi chưa có ảnh), CouponTicket (nút Sao chép, thanh “đã dùng”, mã hết hạn mờ đi), PlaceCard, Pagination. Nút mua trỏ qua <code>/go/[id]</code> với <code>rel="sponsored nofollow noopener"</code>.</li>
+            <li>Trang xem thử <code>/giao-dien</code> hiển thị mọi component bằng dữ liệu mẫu từ DB, không cho Google index, chỉ bật khi chạy local (tắt trên production).</li>
+            <li>Kiểm tra: build, lint, typecheck; chụp màn hình ở 390px và 1280px để so với theme.</li>
+          </ul></div>
+          <div><h3>Kết quả</h3><ul>
+            <li>Đã làm đủ theo kế hoạch. Khu vực: TP.HCM (mặc định), Hà Nội, Đà Nẵng, Toàn quốc. Link Zalo để ở <code>NEXT_PUBLIC_ZALO_URL</code>, bạn điền sau.</li>
+            <li>Chụp màn hình 390px và 1280px: không cuộn ngang. Sửa 3 lỗi nhỏ trên điện thoại (ô KTV lộ nửa dòng, nhãn “Đã hết hạn” xuống dòng, nút chật).</li>
+            <li>Chọn khu vực được nhớ sau khi tải lại; menu đánh dấu đúng trang; <code>/giao-dien</code> trả 404 trên production.</li>
+            <li>lint, build, typecheck: không lỗi. Ảnh chụp lưu ở <code>docs/screenshots/</code>.</li>
+          </ul></div>
+          <div class="note">Nút mua và nút sao chép mã đã trỏ tới <code>/go/...</code>, nhưng route này làm ở Prompt 4 nên hiện bấm sẽ báo 404. Ô tìm kiếm cũng vậy (<code>/tim-kiem</code>).</div>
+        </div>
       </details>
     </li>
 
