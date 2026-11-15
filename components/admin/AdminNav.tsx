@@ -10,6 +10,10 @@ export const ADMIN_NAV = [
   { href: "/admin/coupons", label: "Mã giảm giá" },
   { href: "/admin/posts", label: "Bài viết" },
   { href: "/admin/lich-sale", label: "Lịch sale" },
+  { href: "/admin/places", label: "Quán" },
+  { href: "/admin/nhan-ma", label: "Khách nhận mã" },
+  { href: "/admin/doi-soat", label: "Đối soát" },
+  { href: "/admin/hop-tac", label: "Hợp tác" },
   { href: "/admin/tai-khoan", label: "Tài khoản" },
 ];
 

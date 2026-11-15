@@ -166,3 +166,25 @@ body {
 .article hr {
   border-color: var(--color-line);
 }
+
+/* Nhãn giá trên bản đồ quán */
+.cucre-pin {
+  display: inline-block;
+  transform: translate(-50%, -100%);
+  white-space: nowrap;
+  background: var(--color-brand);
+  color: #fff;
+  font: 700 12px/1 var(--font-sans);
+  padding: 6px 8px;
+  border-radius: 999px;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.3);
+}
+.cucre-pin-link {
+  font: 600 14px var(--font-sans);
+  color: var(--color-brand);
+}
+.leaflet-container {
+  font-family: var(--font-sans);
+  z-index: 0;
+}

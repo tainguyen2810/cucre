@@ -46,12 +46,14 @@ export async function topDeals(days = 7, take = 10) {
 
 export async function overviewCounts() {
   const today = new Date(`${vnDay(new Date())}T00:00:00+07:00`);
-  const [activeDeals, pendingDeals, activeCoupons, pendingCoupons, clicksToday] = await Promise.all([
+  const [activeDeals, pendingDeals, activeCoupons, pendingCoupons, clicksToday, newLeads, claimsToday] = await Promise.all([
     db.deal.count({ where: activeDealWhere() }),
     db.deal.count({ where: { status: "pending" } }),
     db.coupon.count({ where: activeCouponWhere() }),
     db.coupon.count({ where: { status: "pending" } }),
     db.click.count({ where: { createdAt: { gte: today } } }),
+    db.partnerLead.count({ where: { status: "new" } }),
+    db.voucherClaim.count({ where: { createdAt: { gte: today } } }),
   ]);
-  return { activeDeals, pendingDeals, activeCoupons, pendingCoupons, clicksToday };
+  return { activeDeals, pendingDeals, activeCoupons, pendingCoupons, clicksToday, newLeads, claimsToday };
 }
