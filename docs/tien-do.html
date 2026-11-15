@@ -79,11 +79,11 @@ footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
     <h1 class="logo"><b>cucre</b>.vn · tiến độ xây dựng</h1>
     <p class="sub">Theo kế hoạch ngày 15/11/2026. Bấm vào từng mục để xem chi tiết.</p>
     <div class="summary">
-      <span class="pill done">5 xong</span>
+      <span class="pill done">6 xong</span>
       <span class="pill block">1 chờ bạn</span>
-      <span class="pill todo">4 chưa làm</span>
+      <span class="pill todo">3 chưa làm</span>
     </div>
-    <div class="bar" aria-label="Hoàn thành 5 trên 9 prompt"><i style="width:56%"></i></div>
+    <div class="bar" aria-label="Hoàn thành 6 trên 9 prompt"><i style="width:67%"></i></div>
   </header>
 
   <ol class="thread">
@@ -251,7 +251,7 @@ footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
 
     <li class="item" data-s="done">
       <div class="dot">5</div>
-      <details class="card" open>
+      <details class="card">
         <summary>
           <div class="head"><p class="title">Prompt 5 · Trang quản trị</p><span class="pill done">Xong</span></div>
           <span class="meta">Giai đoạn 1 · nhánh <code>prompt-5-admin</code> · tự làm theo yêu cầu, đã gộp vào main</span>
@@ -275,18 +275,27 @@ footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
       </details>
     </li>
 
-    <li class="item" data-s="todo">
+    <li class="item" data-s="done">
       <div class="dot">6</div>
-      <details class="card">
+      <details class="card" open>
         <summary>
-          <div class="head"><p class="title">Prompt 6 · Triển khai lên aaPanel</p><span class="pill todo">Chưa làm</span></div>
-          <span class="meta">Giai đoạn 1 · xong bước này là chạy thật</span>
+          <div class="head"><p class="title">Prompt 6 · Triển khai lên aaPanel</p><span class="pill done">Xong</span></div>
+          <span class="meta">Giai đoạn 1 · đã gộp vào main · hướng dẫn: <code>docs/trien-khai.md</code></span>
         </summary>
-        <div class="body"><ul>
-          <li>PM2 (<code>ecosystem.config.js</code>), Nginx reverse proxy, SSL, phục vụ <code>/uploads/</code></li>
-          <li>Script cập nhật: git pull, build, <code>db:deploy</code>, reload</li>
-          <li>Backup MySQL hằng ngày</li>
-        </ul></div>
+        <div class="body">
+          <div><h3>Đã làm</h3><ul>
+            <li>Hướng dẫn từng bước tiếng Việt: DNS, cài Node/MySQL/PM2 trên aaPanel, deploy key GitHub, <code>.env</code>, build lần đầu, tạo admin, Nginx + SSL, cron, khôi phục sao lưu, xử lý sự cố.</li>
+            <li><code>ecosystem.config.js</code> (PM2), <code>deploy/nginx-cucre.conf</code> (proxy, phục vụ ảnh, cache, chặn file ẩn, www → không www).</li>
+            <li><code>scripts/deploy.sh</code>: pull + cài + migrate + build + reload + kiểm tra sức khỏe.</li>
+            <li><code>scripts/backup-mysql.sh</code>: sao lưu nén, giữ 14 bản, không lộ mật khẩu.</li>
+            <li><code>npm run admin:create</code>: tạo/đặt lại admin an toàn trên production; <code>/api/health</code> cho theo dõi uptime.</li>
+          </ul></div>
+          <div><h3>Đã kiểm tra</h3><ul>
+            <li>Chạy thật PM2 → Nginx → Next.js: trang chủ 200, ảnh <code>/uploads</code> do Nginx phục vụ, <code>.env</code> bị chặn 403, www chuyển 301, IP thật của khách tới được app.</li>
+            <li>Health trả 503 khi tắt DB, 200 khi bật lại. Sao lưu ra file có đủ 16 bảng và dữ liệu.</li>
+          </ul></div>
+          <div class="note">Việc của bạn: làm theo <code>docs/trien-khai.md</code> trên server thật (cần quyền truy cập server, mình không làm thay được).</div>
+        </div>
       </details>
     </li>
 

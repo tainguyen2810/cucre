@@ -93,6 +93,8 @@ Chi tiết từng bảng: `docs/du-lieu.md`. Schema: `prisma/schema.prisma`.
 - `npm run db:deploy` – áp migration trên production
 - `npm run db:seed` – XÓA dữ liệu nội dung rồi nạp mẫu + tài khoản admin (SEED_ADMIN_EMAIL/SEED_ADMIN_PASSWORD)
 - `npm run db:studio` – xem dữ liệu
+- `npm run admin:create -- email` (với `ADMIN_PASSWORD=...`) – tạo/đặt lại admin, an toàn trên production
+- Triển khai: `docs/trien-khai.md`; cập nhật server: `bash scripts/deploy.sh`; PM2 1 tiến trình (`ecosystem.config.js`); Nginx `deploy/nginx-cucre.conf`; `/api/health`
 
 ## Cách làm việc
 - Trước mỗi prompt: rà soát yêu cầu và code hiện có, viết kế hoạch triển khai (việc sẽ làm, quyết định kỹ thuật, điểm cần chủ dự án chọn), cập nhật vào `docs/tien-do.html`. (Từ Prompt 5, chủ dự án cho phép tự làm hết không chờ duyệt và tự gộp PR vào `main` khi xong mỗi prompt; ghi rõ các giả định để chủ dự án sửa sau.)
