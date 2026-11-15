@@ -71,6 +71,13 @@ Chi tiết từng bảng: `docs/du-lieu.md`. Schema: `prisma/schema.prisma`.
 - `/go/[id]`: không index (robots + header `X-Robots-Tag`), bỏ qua bot khi ghi Click.
 - Lịch sử giá chỉ chính xác khi giá được cập nhật thật (sửa tay hoặc datafeed); đừng hiển thị biểu đồ khi chưa đủ dữ liệu.
 
+## Trang & truy vấn đã có
+- Trang: `/` (trang chủ), `/ma-giam-gia`, `/ma-giam-gia/[san]` (lọc ngành `?nganh=`, mã hết hạn `?het-han=1`), `/gia-re` (`?gia=`, `?danh-muc=`, `?san=`, `?sap-xep=`, `?page=`, 24 deal/trang), `/deal/[slug]`, `/tim-kiem?q=`, `/go/[id]` (`123` = deal, `c45` = coupon), `sitemap.xml`, `robots.txt`.
+- Truy vấn dùng lại ở `lib/queries/` (`deals.ts`, `coupons.ts`, `listing.ts`): luôn dùng `activeDealWhere()` / `activeCouponWhere()` để chỉ lấy mục đã đăng và còn hạn; `dealCardSelect` cho DealCard; `listDeals(segment, filters)` cho các trang danh sách theo mảng (dùng lại cho /ky-thuat-so, /du-lich).
+- Trang có bộ lọc trên URL: canonical về trang gốc và `noindex, follow` khi có bộ lọc.
+- Tham số URL: dùng `param()`, `pageParam()`, `hrefWith()` trong `lib/url.ts`.
+- Job: `npm run job:expire` (jobs/expire-items.ts) – cron mỗi giờ.
+
 ## Lệnh thường dùng
 - `npm run dev` – chạy local (http://localhost:3000)
 - `npm run build` – build production; `npm run lint`; `npm run typecheck` (chạy sau build để có type route)

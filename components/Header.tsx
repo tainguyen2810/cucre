@@ -17,7 +17,7 @@ export async function Header() {
       <div className="mx-auto flex max-w-site flex-col gap-3 px-4 pt-3 pb-2 md:px-6 md:pt-4">
         <div className="flex items-center gap-3 md:gap-4">
           <Logo className="mr-auto md:mr-2" />
-          <SearchBox className="hidden flex-1 md:block md:max-w-[560px]" />
+          <SearchBox className="hidden flex-1 md:block md:max-w-[560px]" id="search-desktop" />
           <div className="md:hidden">
             <RegionSelect value={region} compact id="region-mobile" />
           </div>
@@ -33,7 +33,7 @@ export async function Header() {
             <span className="sr-only md:not-sr-only">Nhận deal qua Zalo</span>
           </a>
         </div>
-        <SearchBox className="md:hidden" />
+        <SearchBox className="md:hidden" id="search-mobile" />
         <MainNav />
       </div>
     </header>

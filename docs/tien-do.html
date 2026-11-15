@@ -79,11 +79,11 @@ footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
     <h1 class="logo"><b>cucre</b>.vn · tiến độ xây dựng</h1>
     <p class="sub">Theo kế hoạch ngày 15/11/2026. Bấm vào từng mục để xem chi tiết.</p>
     <div class="summary">
-      <span class="pill done">3 xong</span>
+      <span class="pill done">4 xong</span>
       <span class="pill block">1 chờ bạn</span>
-      <span class="pill todo">6 chưa làm</span>
+      <span class="pill todo">5 chưa làm</span>
     </div>
-    <div class="bar" aria-label="Hoàn thành 3 trên 9 prompt"><i style="width:33%"></i></div>
+    <div class="bar" aria-label="Hoàn thành 4 trên 9 prompt"><i style="width:44%"></i></div>
   </header>
 
   <ol class="thread">
@@ -210,8 +210,8 @@ footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
       <div class="dot">4</div>
       <details class="card" open>
         <summary>
-          <div class="head"><p class="title">Prompt 4 · Các trang giai đoạn 1</p><span class="pill block">Chờ duyệt kế hoạch</span></div>
-          <span class="meta">Giai đoạn 1 · nhánh <code>prompt-4-trang</code></span>
+          <div class="head"><p class="title">Prompt 4 · Các trang giai đoạn 1</p><span class="pill done">Xong</span></div>
+          <span class="meta">Giai đoạn 1 · nhánh <code>prompt-4-trang</code> · đã lên GitHub, chờ gộp</span>
         </summary>
         <div class="body">
           <div><h3>Rà soát</h3><ul>
@@ -235,7 +235,16 @@ footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
             <li>SEO: tiêu đề/mô tả và canonical từng trang; <code>sitemap.xml</code> (trang chính, deal, trang mã theo sàn); <code>robots.txt</code> chặn <code>/go</code>, <code>/admin</code>, <code>/api</code>, <code>/tim-kiem</code>; JSON-LD Product/Offer + breadcrumb trên trang deal, WebSite (ô tìm kiếm) trên trang chủ.</li>
             <li>Kiểm tra: build, lint, typecheck; thử <code>/go</code> ghi click và bỏ qua bot; chụp màn hình 390px/1280px các trang.</li>
           </ul></div>
-          <div class="note">Cần bạn xác nhận: các mức giá ở tab /gia-re và 24 deal mỗi trang. Click ghi đủ mọi lượt (trừ bot); khi thống kê ở admin sẽ đếm cả “lượt bấm” và “người bấm” (theo mã băm).</div>
+          <div><h3>Kết quả</h3><ul>
+            <li>Đã làm đủ 2 đợt theo kế hoạch (mức giá và 24 deal/trang như đề xuất).</li>
+            <li><code>/go</code>: người dùng được ghi click, bot Zalo không ghi; deal hết hạn đưa về trang deal; link sai trả 404; có header noindex.</li>
+            <li>Deal hết hạn hiện dải thông báo + deal tương tự; deal nháp trả 404.</li>
+            <li>Tìm “tai nghe chống ồn” và “tai nghe chong on” đều ra cùng kết quả; tìm tên sàn ra cả deal và mã.</li>
+            <li>Bộ lọc giá/danh mục/sắp xếp đúng; trang có bộ lọc gắn noindex; sitemap 21 đường dẫn.</li>
+            <li>Chụp 390px/1280px: không tràn ngang. Sửa biểu đồ giá (chữ trục sai cỡ khi đổi khung) và trùng id ô tìm kiếm ở header.</li>
+            <li>lint, build, typecheck: không lỗi.</li>
+          </ul></div>
+          <div class="note">Khi lên server thật: đặt <code>NEXT_PUBLIC_SITE_URL=https://cucre.vn</code> để sitemap/canonical đúng, và thêm cron mỗi giờ <code>npm run job:expire</code> (hướng dẫn ở Prompt 6).</div>
         </div>
       </details>
     </li>
