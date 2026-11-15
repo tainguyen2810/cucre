@@ -1,0 +1,25 @@
+// Schema Prisma cho cucre.vn. Các model còn lại (Platform, Deal, Coupon...) thêm ở Prompt 2.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+enum AdminRole {
+  admin
+  editor
+}
+
+model AdminUser {
+  id           Int       @id @default(autoincrement())
+  email        String    @unique @db.VarChar(191)
+  name         String?   @db.VarChar(191)
+  passwordHash String    @db.VarChar(255)
+  role         AdminRole @default(editor)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
