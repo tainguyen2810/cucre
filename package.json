@@ -9,14 +9,17 @@
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "postinstall": "prisma generate",
-    "db:migrate": "prisma migrate dev && prisma generate",
+    "db:migrate": "prisma migrate dev",
     "db:deploy": "prisma migrate deploy",
     "db:seed": "prisma db seed",
     "db:studio": "prisma studio",
     "job:expire": "tsx jobs/expire-items.ts",
     "admin:create": "tsx scripts/create-admin.ts",
     "backup": "bash scripts/backup-mysql.sh",
-    "job:prices": "tsx jobs/record-prices.ts"
+    "job:prices": "tsx jobs/record-prices.ts",
+    "postdb:migrate": "prisma generate",
+    "job:import": "tsx jobs/import-coupons.ts",
+    "job:telegram": "tsx jobs/telegram-daily.ts"
   },
   "dependencies": {
     "@prisma/adapter-mariadb": "^7.10.1",

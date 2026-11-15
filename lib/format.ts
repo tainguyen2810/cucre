@@ -22,5 +22,8 @@ export function formatShortVnd(value: number): string {
 /** Ngày dạng 15/12 */
 export function formatShortDate(date: Date | string | null | undefined): string {
   if (!date) return "";
-  return new Intl.DateTimeFormat("vi-VN", { day: "2-digit", month: "2-digit", timeZone: "Asia/Ho_Chi_Minh" }).format(new Date(date));
+  // Ghép tay để luôn ra "15/12" (ICU của Node có bản ra "15-12")
+  const parts = new Intl.DateTimeFormat("en-GB", { day: "2-digit", month: "2-digit", timeZone: "Asia/Ho_Chi_Minh" }).formatToParts(new Date(date));
+  const get = (t: string) => parts.find((x) => x.type === t)?.value ?? "";
+  return `${get("day")}/${get("month")}`;
 }

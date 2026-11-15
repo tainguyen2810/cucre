@@ -129,6 +129,8 @@ Nếu server không có IPv6 mà Nginx báo lỗi `[::]:80`, xóa dòng `listen 
 | --- | --- | --- | --- |
 | Hết hạn deal/mã | Shell Script | Mỗi giờ, phút 5 | `cd /www/wwwroot/cucre && npm run job:expire >> logs/cron.log 2>&1` |
 | Ghi lịch sử giá | Shell Script | Hằng ngày 00:20 | `cd /www/wwwroot/cucre && npm run job:prices >> logs/cron.log 2>&1` |
+| Nhập mã affiliate | Shell Script | Mỗi 6 giờ | `cd /www/wwwroot/cucre && npm run job:import >> logs/cron.log 2>&1` |
+| Gửi deal lên Telegram | Shell Script | Hằng ngày 11:30 | `cd /www/wwwroot/cucre && npm run job:telegram >> logs/cron.log 2>&1` |
 | Sao lưu DB | Shell Script | Hằng ngày 03:15 | `bash /www/wwwroot/cucre/scripts/backup-mysql.sh >> /www/wwwroot/cucre/logs/backup.log 2>&1` |
 | Sao lưu ảnh | Backup Directory | Hằng tuần | Thư mục `/www/cucre-uploads` |
 

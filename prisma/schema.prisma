@@ -395,3 +395,17 @@ model AdminUser {
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
 }
+
+// ---------- Tự động hóa ----------
+
+/// Nhật ký mỗi lần chạy job tự động (nhập mã, gửi Telegram...)
+model JobRun {
+  id        Int      @id @default(autoincrement())
+  /// import-coupons | telegram-daily | ...
+  job       String   @db.VarChar(50)
+  ok        Boolean
+  summary   String   @db.VarChar(1000)
+  createdAt DateTime @default(now())
+
+  @@index([job, createdAt])
+}
