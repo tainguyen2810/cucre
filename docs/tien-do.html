@@ -173,7 +173,7 @@ footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
 
     <li class="item" data-s="done">
       <div class="dot">3</div>
-      <details class="card" open>
+      <details class="card">
         <summary>
           <div class="head"><p class="title">Prompt 3 · Giao diện chung</p><span class="pill done">Xong</span></div>
           <span class="meta">Giai đoạn 1 · nhánh <code>prompt-3-giao-dien</code> · đã lên GitHub, chờ gộp</span>
@@ -208,16 +208,35 @@ footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
 
     <li class="item" data-s="todo">
       <div class="dot">4</div>
-      <details class="card">
+      <details class="card" open>
         <summary>
-          <div class="head"><p class="title">Prompt 4 · Các trang giai đoạn 1</p><span class="pill todo">Chưa làm</span></div>
-          <span class="meta">Giai đoạn 1</span>
+          <div class="head"><p class="title">Prompt 4 · Các trang giai đoạn 1</p><span class="pill block">Chờ duyệt kế hoạch</span></div>
+          <span class="meta">Giai đoạn 1 · nhánh <code>prompt-4-trang</code></span>
         </summary>
-        <div class="body"><ul>
-          <li>Trang chủ, <code>/ma-giam-gia</code>, <code>/gia-re</code>, <code>/deal/[slug]</code></li>
-          <li><code>/go/[id]</code> ghi click rồi chuyển hướng 302, không index, lọc bot</li>
-          <li>Metadata SEO, sitemap.xml, robots.txt, JSON-LD Product/Offer</li>
-        </ul></div>
+        <div class="body">
+          <div><h3>Rà soát</h3><ul>
+            <li>Chưa có thiết kế bố cục từng trang: mình dựng bằng các component đã có theo bộ theme; có thiết kế thì chỉnh lại sau.</li>
+            <li>Prompt này lớn (5 trang + chuyển hướng + SEO). Làm 2 đợt trên cùng nhánh: đợt 1 là <code>/go</code> + chi tiết deal (để nút mua hoạt động), đợt 2 là các trang danh sách + SEO.</li>
+            <li>Kế hoạch gốc ghi URL <code>/ma-giam-gia/shopee</code>: mình làm lọc theo sàn bằng đường dẫn riêng (tốt cho SEO: “mã giảm giá Shopee”), còn lọc ngành dùng tham số <code>?nganh=</code>.</li>
+            <li>Header đọc cookie khu vực nên mọi trang đều render theo từng lượt xem. Với lượng truy cập ban đầu là ổn; khi đông sẽ thêm cache.</li>
+            <li>Deal hết hạn hiện đang tính lúc hiển thị; cần thêm job đổi trạng thái sang <code>expired</code> trong DB để lọc và sitemap đúng.</li>
+          </ul></div>
+          <div><h3>Kế hoạch – đợt 1</h3><ul>
+            <li><code>/go/123</code> (deal) và <code>/go/c45</code> (coupon): ghi Click rồi chuyển hướng 302. Bỏ qua bot (Googlebot, Facebook, Zalo xem trước link…), không lưu IP (chỉ mã băm theo ngày), gửi header <code>noindex</code>, chỉ chuyển tới link http/https. Deal đã hết hạn thì đưa về trang deal thay vì ra sàn.</li>
+            <li><code>/deal/[slug]</code>: ảnh, giá, % giảm, sàn, hạn dùng, nút “Lấy deal” kèm câu công khai hoa hồng ngay cạnh; khối Đánh giá KTV (điểm cộng, lưu ý, kết luận); mã dùng kèm; biểu đồ giá 30 ngày vẽ bằng SVG (không thêm thư viện), chỉ hiện khi có từ 7 ngày dữ liệu; 4 deal tương tự cùng danh mục.</li>
+            <li>Deal hết hạn: trang vẫn mở, hiện dải “Đã hết hạn” và đưa deal tương tự lên trên. Deal nháp/chờ duyệt: 404.</li>
+            <li>Trang 404 tiếng Việt; job <code>jobs/expire-items.ts</code> chuyển deal/coupon quá hạn sang <code>expired</code> (chạy mỗi giờ bằng cron aaPanel).</li>
+          </ul></div>
+          <div><h3>Kế hoạch – đợt 2</h3><ul>
+            <li>Trang chủ: deal nổi bật, mã giảm giá hot, deal mới nhất (kèm link “Xem tất cả”).</li>
+            <li><code>/ma-giam-gia</code> và <code>/ma-giam-gia/[sàn]</code>: chip sàn, chip ngành, mặc định chỉ hiện mã còn hạn (có nút xem mã đã hết hạn).</li>
+            <li><code>/gia-re</code>: tab mức giá (Tất cả · Dưới 99k · 99k–299k · 300k–999k · Trên 1 triệu), lọc danh mục và sàn, sắp xếp (mới nhất, giảm nhiều nhất, giá thấp, giá cao), 24 deal/trang. Bộ lọc nằm trên URL để chia sẻ được.</li>
+            <li><code>/tim-kiem?q=</code>: tìm deal và mã theo cột không dấu (gõ có dấu hay không đều ra), không cho Google index.</li>
+            <li>SEO: tiêu đề/mô tả và canonical từng trang; <code>sitemap.xml</code> (trang chính, deal, trang mã theo sàn); <code>robots.txt</code> chặn <code>/go</code>, <code>/admin</code>, <code>/api</code>, <code>/tim-kiem</code>; JSON-LD Product/Offer + breadcrumb trên trang deal, WebSite (ô tìm kiếm) trên trang chủ.</li>
+            <li>Kiểm tra: build, lint, typecheck; thử <code>/go</code> ghi click và bỏ qua bot; chụp màn hình 390px/1280px các trang.</li>
+          </ul></div>
+          <div class="note">Cần bạn xác nhận: các mức giá ở tab /gia-re và 24 deal mỗi trang. Click ghi đủ mọi lượt (trừ bot); khi thống kê ở admin sẽ đếm cả “lượt bấm” và “người bấm” (theo mã băm).</div>
+        </div>
       </details>
     </li>
 
