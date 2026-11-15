@@ -79,5 +79,6 @@ design/              # file thiết kế tham khảo xuất từ canvas (chỉ �
 - `npm run db:studio` – xem dữ liệu
 
 ## Cách làm việc
-- Làm theo từng giai đoạn trong kế hoạch; xong mỗi phần thì chạy build/lint, tóm tắt thay đổi.
+- Trước mỗi prompt: rà soát yêu cầu và code hiện có, viết kế hoạch triển khai (việc sẽ làm, quyết định kỹ thuật, điểm cần chủ dự án chọn), cập nhật vào `docs/tien-do.html`, và CHỜ duyệt rồi mới code.
+- Mỗi prompt làm trên một nhánh git riêng; xong thì chạy build/lint/typecheck, tóm tắt thay đổi, cập nhật trang tiến độ.
 - Ưu tiên đơn giản, dễ bảo trì cho một người quản trị; hỏi lại trước khi thêm dịch vụ trả phí hoặc thư viện lớn.

@@ -137,18 +137,31 @@ footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
       </details>
     </li>
 
-    <li class="item" data-s="wip">
+    <li class="item" data-s="block">
       <div class="dot">2</div>
-      <details class="card">
+      <details class="card" open>
         <summary>
-          <div class="head"><p class="title">Prompt 2 · Cơ sở dữ liệu</p><span class="pill wip">Đang làm</span></div>
+          <div class="head"><p class="title">Prompt 2 · Cơ sở dữ liệu</p><span class="pill block">Chờ duyệt kế hoạch</span></div>
           <span class="meta">Giai đoạn 1 · nhánh <code>prompt-2-database</code></span>
         </summary>
-        <div class="body"><ul>
-          <li>13 bảng: Platform, Category, Deal, PriceHistory, Coupon, Place, Voucher, VoucherClaim, PartnerLead, Post, Click, SaleEvent, AdminUser</li>
-          <li>Cột tiêu đề không dấu để tìm kiếm</li>
-          <li>Dữ liệu mẫu: vài sàn, danh mục, 12 deal, 8 coupon, 4 quán</li>
-        </ul></div>
+        <div class="body">
+          <div><h3>Rà soát</h3><ul>
+            <li>MySQL không có kiểu mảng, nên <code>images</code>, <code>techPros</code>, <code>techCons</code> trong CLAUDE.md phải lưu dạng JSON.</li>
+            <li><code>Post.relatedDealIds</code> lưu danh sách ID sẽ khó truy vấn và dễ lệch khi xóa deal; nên dùng bảng nối.</li>
+            <li>Trang chi tiết deal có mục “mã dùng kèm” nhưng CLAUDE.md chưa có liên kết Deal–Coupon.</li>
+            <li>Trang mã giảm giá lọc “theo ngành” nhưng Coupon chưa có danh mục. Trang ăn uống lọc theo quận qua URL <code>/an-uong/binh-tan</code> nên cần slug quận.</li>
+          </ul></div>
+          <div><h3>Kế hoạch</h3><ul>
+            <li>Viết đủ 13 bảng; tiền lưu số nguyên (đồng), trạng thái dùng enum, đánh index cho các cột lọc/sắp xếp.</li>
+            <li>Thêm: cột tiêu đề không dấu (Deal, Coupon, Place, Post) để tìm kiếm; bảng nối Post–Deal và Deal–Coupon; <code>Coupon.categoryId</code>; <code>Place.districtSlug</code>; <code>Deal.destination</code> cho du lịch.</li>
+            <li>VoucherClaim: mỗi SĐT chỉ nhận 1 lần cho mỗi voucher (ràng buộc duy nhất trong DB), lưu thời điểm khách đồng ý xử lý dữ liệu.</li>
+            <li>Click: không lưu IP; chỉ lưu mã băm IP theo ngày để lọc click trùng.</li>
+            <li>Seed tiếng Việt: 7 sàn, danh mục dạng cây, 12 deal (kèm lịch sử giá 30 ngày), 8 coupon, 4 quán + voucher, 1 lịch sale, 1 bài blog. Chạy lại được nhiều lần; tự từ chối chạy trên production.</li>
+            <li>Viết <code>docs/du-lieu.md</code> giải thích ngắn từng bảng; cập nhật phần Dữ liệu trong CLAUDE.md.</li>
+            <li>Kiểm tra: migration, seed, build, lint, typecheck.</li>
+          </ul></div>
+          <div class="note">Dữ liệu mẫu dùng tên quán và địa chỉ bịa, link affiliate trỏ về trang chủ của sàn, chưa có ảnh. Bạn sẽ thay bằng dữ liệu thật qua trang admin.</div>
+        </div>
       </details>
     </li>
 
