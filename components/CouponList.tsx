@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 import { CouponTicket, type CouponTicketData } from "@/components/CouponTicket";
 import { ChipLink } from "@/components/ui/Chip";
 import { couponListPath } from "@/lib/links";
@@ -14,10 +15,12 @@ type Props = {
   industry?: string;
   showExpired: boolean;
   coupons: CouponTicketData[];
+  /** Khối chèn dưới bộ lọc (vd. lịch sale) */
+  aside?: ReactNode;
 };
 
 /** Nội dung dùng chung cho /ma-giam-gia và /ma-giam-gia/[san] */
-export function CouponList({ title, intro, platformSlug, platforms, industries, industry, showExpired, coupons }: Props) {
+export function CouponList({ title, intro, platformSlug, platforms, industries, industry, showExpired, coupons, aside }: Props) {
   const base = couponListPath(platformSlug);
   const current = { nganh: industry, "het-han": showExpired ? "1" : undefined };
 
@@ -56,6 +59,8 @@ export function CouponList({ title, intro, platformSlug, platforms, industries, 
           </nav>
         ) : null}
       </div>
+
+      {aside}
 
       {coupons.length > 0 ? (
         <div className="grid gap-3 md:grid-cols-2 md:gap-4">

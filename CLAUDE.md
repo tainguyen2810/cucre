@@ -72,11 +72,14 @@ Chi tiết từng bảng: `docs/du-lieu.md`. Schema: `prisma/schema.prisma`.
 - Lịch sử giá chỉ chính xác khi giá được cập nhật thật (sửa tay hoặc datafeed); đừng hiển thị biểu đồ khi chưa đủ dữ liệu.
 
 ## Trang & truy vấn đã có
+- Trang danh sách theo mảng dùng chung `components/DealListing.tsx` (`/gia-re`, `/ky-thuat-so` tab giá; `/du-lich` tab danh mục + `?diem-den=` + `?q=`).
+- Blog: `/blog` (`?chuyen-muc=`), `/blog/[slug]`; Markdown qua `lib/markdown.ts` (marked, HTML thô bị vô hiệu, mục lục từ h2/h3, dòng `{{deal:slug}}` chèn DealCard). Lịch sale (`SaleCalendar`) hiện ở /ma-giam-gia.
 - Trang: `/` (trang chủ), `/ma-giam-gia`, `/ma-giam-gia/[san]` (lọc ngành `?nganh=`, mã hết hạn `?het-han=1`), `/gia-re` (`?gia=`, `?danh-muc=`, `?san=`, `?sap-xep=`, `?page=`, 24 deal/trang), `/deal/[slug]`, `/tim-kiem?q=`, `/go/[id]` (`123` = deal, `c45` = coupon), `sitemap.xml`, `robots.txt`.
 - Truy vấn dùng lại ở `lib/queries/` (`deals.ts`, `coupons.ts`, `listing.ts`): luôn dùng `activeDealWhere()` / `activeCouponWhere()` để chỉ lấy mục đã đăng và còn hạn; `dealCardSelect` cho DealCard; `listDeals(segment, filters)` cho các trang danh sách theo mảng (dùng lại cho /ky-thuat-so, /du-lich).
 - Trang có bộ lọc trên URL: canonical về trang gốc và `noindex, follow` khi có bộ lọc.
 - Tham số URL: dùng `param()`, `pageParam()`, `hrefWith()` trong `lib/url.ts`.
-- Job: `npm run job:expire` (jobs/expire-items.ts) – cron mỗi giờ.
+- Job: `npm run job:expire` (jobs/expire-items.ts) – cron mỗi giờ; `npm run job:prices` (jobs/record-prices.ts) – cron hằng ngày, ghi giá mỗi deal 1 lần/ngày.
+- Admin còn có `/admin/posts` (bài viết, hẹn giờ đăng) và `/admin/lich-sale`.
 
 ## Trang quản trị (/admin)
 - `/admin/login` (route group `(auth)`), các trang còn lại trong `(panel)` – layout gọi `requireAdmin()`. Mọi Server Action admin cũng phải gọi `requireAdmin()` (lib/admin/auth.ts). Đăng nhập sai 5 lần/15 phút/IP bị chặn tạm.

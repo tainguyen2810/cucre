@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { cache } from "react";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { CouponList } from "@/components/CouponList";
+import { SaleCalendar } from "@/components/SaleCalendar";
 import { db } from "@/lib/db";
 import { couponListPath } from "@/lib/links";
 import { categoryWithChildrenIds, couponIndustries, getCoupons, platformsWithCoupons } from "@/lib/queries/coupons";
@@ -52,6 +53,7 @@ export default async function PlatformCouponsPage({ params, searchParams }: Page
         industry={categoryIds ? industry : undefined}
         showExpired={showExpired}
         coupons={coupons}
+        aside={showExpired ? null : <SaleCalendar />}
       />
     </div>
   );

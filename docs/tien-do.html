@@ -79,11 +79,11 @@ footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
     <h1 class="logo"><b>cucre</b>.vn · tiến độ xây dựng</h1>
     <p class="sub">Theo kế hoạch ngày 15/11/2026. Bấm vào từng mục để xem chi tiết.</p>
     <div class="summary">
-      <span class="pill done">6 xong</span>
+      <span class="pill done">7 xong</span>
       <span class="pill block">1 chờ bạn</span>
-      <span class="pill todo">3 chưa làm</span>
+      <span class="pill todo">2 chưa làm</span>
     </div>
-    <div class="bar" aria-label="Hoàn thành 6 trên 9 prompt"><i style="width:67%"></i></div>
+    <div class="bar" aria-label="Hoàn thành 7 trên 9 prompt"><i style="width:78%"></i></div>
   </header>
 
   <ol class="thread">
@@ -277,7 +277,7 @@ footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
 
     <li class="item" data-s="done">
       <div class="dot">6</div>
-      <details class="card" open>
+      <details class="card">
         <summary>
           <div class="head"><p class="title">Prompt 6 · Triển khai lên aaPanel</p><span class="pill done">Xong</span></div>
           <span class="meta">Giai đoạn 1 · đã gộp vào main · hướng dẫn: <code>docs/trien-khai.md</code></span>
@@ -299,17 +299,29 @@ footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
       </details>
     </li>
 
-    <li class="item" data-s="todo">
+    <li class="item" data-s="done">
       <div class="dot">7</div>
-      <details class="card">
+      <details class="card" open>
         <summary>
-          <div class="head"><p class="title">Prompt 7 · Mở rộng nội dung</p><span class="pill todo">Chưa làm</span></div>
-          <span class="meta">Giai đoạn 2 · 1–2 tuần</span>
+          <div class="head"><p class="title">Prompt 7 · Mở rộng nội dung</p><span class="pill done">Xong</span></div>
+          <span class="meta">Giai đoạn 2 · đã gộp vào main</span>
         </summary>
-        <div class="body"><ul>
-          <li><code>/ky-thuat-so</code>, <code>/du-lich</code>, <code>/blog</code>, <code>/blog/[slug]</code></li>
-          <li>Lịch sale, job ghi lịch sử giá (chạy bằng cron aaPanel)</li>
-        </ul></div>
+        <div class="body">
+          <div><h3>Đã làm</h3><ul>
+            <li><code>/ky-thuat-so</code>: tab mức giá, lọc, cam kết bản quyền/hóa đơn VAT/hỗ trợ cài đặt.</li>
+            <li><code>/du-lich</code>: ô tìm điểm đến (gõ không dấu được), tab loại hình (khách sạn, tour, vé máy bay), chip điểm đến hot tự tính theo số deal.</li>
+            <li><code>/blog</code> + <code>/blog/[slug]</code>: chuyên mục, mục lục tự sinh, chèn thẻ deal bằng dòng <code>{{deal:slug}}</code>, deal liên quan, JSON-LD Article, thời gian đọc.</li>
+            <li>Lịch sale trên trang mã giảm giá (đang diễn ra / còn N ngày); trang chủ thêm mục Kỹ thuật số, Du lịch, Bài viết; sitemap thêm trang và bài viết.</li>
+            <li>Job <code>npm run job:prices</code> ghi giá mỗi ngày (cron 00:20).</li>
+            <li>Admin: Bài viết (Markdown, ảnh bìa, hẹn giờ đăng, deal liên quan) và Lịch sale.</li>
+          </ul></div>
+          <div><h3>Đã kiểm tra</h3><ul>
+            <li>Lọc du lịch theo điểm đến / loại hình / từ khóa; bài viết có mục lục và thẻ deal; HTML thô và link <code>javascript:</code> trong bài bị vô hiệu.</li>
+            <li>E2E admin: tạo bài → hiện công khai; thêm lịch sale (báo lỗi khi ngày kết thúc trước ngày bắt đầu, giữ dữ liệu đã nhập) → hiện ở trang mã.</li>
+            <li>Không tràn ngang 390px/1280px; lint, build, typecheck không lỗi.</li>
+          </ul></div>
+          <div class="note">Thêm thư viện <code>marked</code> (nhỏ, không phụ thuộc) để hiển thị Markdown.</div>
+        </div>
       </details>
     </li>
 
