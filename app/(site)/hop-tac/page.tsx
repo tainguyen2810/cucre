@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { BadgePercent, ChartColumn, Megaphone, Wallet } from "lucide-react";
 import { LeadForm } from "@/components/LeadForm";
+import { TURNSTILE_SITE_KEY } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Hợp tác cho quán ăn, spa – thêm khách không mất phí đăng",
@@ -47,7 +48,7 @@ export default function PartnerPage() {
         </section>
         <section aria-labelledby="dang-ky" className="flex flex-col gap-3 rounded-xl border border-line bg-surface p-4 md:p-6">
           <h2 id="dang-ky" className="text-section font-extrabold">Đăng ký hợp tác</h2>
-          <LeadForm />
+          <LeadForm turnstileSiteKey={TURNSTILE_SITE_KEY} />
         </section>
       </div>
     </div>

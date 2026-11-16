@@ -6,8 +6,8 @@ export const SITE = {
     name: "Công ty TNHH TM & DV Tin học ITSO",
     city: "TP. Hồ Chí Minh",
   },
-  /** Link Zalo OA hoặc nhóm Zalo; điền vào NEXT_PUBLIC_ZALO_URL trong .env */
-  zaloUrl: process.env.NEXT_PUBLIC_ZALO_URL || "",
+  /** Link Zalo OA hoặc nhóm Zalo (ZALO_URL trong .env, đọc lúc chạy) */
+  zaloUrl: process.env.ZALO_URL || process.env.NEXT_PUBLIC_ZALO_URL || "",
 };
 
 export const MAIN_NAV = [
@@ -36,4 +36,7 @@ export function parseRegion(value: string | undefined): RegionValue {
 }
 
 /** URL gốc của site, dùng cho canonical, sitemap, JSON-LD */
-export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000").replace(/\/$/, "");
+export const SITE_URL = (process.env.SITE_URL || process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000").replace(/\/$/, "");
+
+/** Site key Cloudflare Turnstile (đọc lúc chạy, truyền xuống form) */
+export const TURNSTILE_SITE_KEY = process.env.TURNSTILE_SITE_KEY || process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "";

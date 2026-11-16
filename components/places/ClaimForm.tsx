@@ -8,9 +8,8 @@ import { useFormAction } from "@/components/admin/useFormAction";
 import { Button } from "@/components/ui/Button";
 
 const input = "min-h-12 w-full rounded-lg border border-line-strong bg-surface px-3.5 text-[15px] focus:border-ink focus:outline-none aria-[invalid=true]:border-brand";
-const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
-export function ClaimForm({ voucherId, placeName }: { voucherId: number; placeName: string }) {
+export function ClaimForm({ voucherId, placeName, turnstileSiteKey }: { voucherId: number; placeName: string; turnstileSiteKey?: string }) {
   const { state, onSubmit, pending } = useFormAction<ClaimState>(claimVoucher, {});
   const e = state.errors ?? {};
 

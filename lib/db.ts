@@ -2,15 +2,23 @@ import "server-only";
 import { PrismaMariaDb } from "@prisma/adapter-mariadb";
 import { PrismaClient } from "@/lib/generated/prisma/client";
 
-// Dùng một PrismaClient duy nhất, tránh tạo nhiều kết nối khi dev hot-reload.
+// Một PrismaClient dùng chung, tạo KHI CẦN (lần đầu truy vấn) để app vẫn khởi động được
+// khi chưa có .env – lúc đó mọi trang được chuyển sang wizard /cai-dat.
 const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient };
 
-function createClient() {
-  const url = process.env.DATABASE_URL;
-  if (!url) throw new Error("Thiếu biến môi trường DATABASE_URL");
-  return new PrismaClient({ adapter: new PrismaMariaDb(url) });
+function client(): PrismaClient {
+  if (!globalForPrisma.prisma) {
+    const url = process.env.DATABASE_URL;
+    if (!url) throw new Error("Thiếu DATABASE_URL – chưa cài đặt (mở /cai-dat)");
+    globalForPrisma.prisma = new PrismaClient({ adapter: new PrismaMariaDb(url) });
+  }
+  return globalForPrisma.prisma;
 }
 
-export const db = globalForPrisma.prisma ?? createClient();
-
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = db;
+export const db = new Proxy({} as PrismaClient, {
+  get(_target, prop) {
+    const c = client();
+    const value = Reflect.get(c, prop);
+    return typeof value === "function" ? value.bind(c) : value;
+  },
+});

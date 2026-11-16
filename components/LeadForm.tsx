@@ -8,7 +8,6 @@ import { useFormAction } from "@/components/admin/useFormAction";
 import { Button } from "@/components/ui/Button";
 
 const input = "min-h-12 w-full rounded-lg border border-line-strong bg-surface px-3.5 text-[15px] focus:border-ink focus:outline-none aria-[invalid=true]:border-brand";
-const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
 function F({ id, label, error, children }: { id: string; label: string; error?: string; children: React.ReactNode }) {
   return (
@@ -20,7 +19,7 @@ function F({ id, label, error, children }: { id: string; label: string; error?: 
   );
 }
 
-export function LeadForm() {
+export function LeadForm({ turnstileSiteKey }: { turnstileSiteKey?: string }) {
   const { state, onSubmit, pending } = useFormAction<LeadState>(submitLead, {});
   const e = state.errors ?? {};
   if (state.ok) {
