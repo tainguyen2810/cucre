@@ -53,7 +53,7 @@ export async function sendTelegram(token: string, chatId: string, text: string, 
 export async function runTelegramDaily(db: Db, env: Record<string, string | undefined> = process.env, dryRun = false) {
   const deals = await pickDailyDeals(db);
   if (deals.length === 0) return { ok: false, summary: "Không có deal đã duyệt nào để gửi", message: "" };
-  const message = buildDailyMessage(deals, env.NEXT_PUBLIC_SITE_URL || "https://cucre.vn");
+  const message = buildDailyMessage(deals, env.SITE_URL || env.NEXT_PUBLIC_SITE_URL || "https://cucre.vn");
   if (dryRun) return { ok: true, summary: `Xem trước ${deals.length} deal`, message };
   if (!env.TELEGRAM_BOT_TOKEN || !env.TELEGRAM_CHAT_ID) return { ok: false, summary: "Thiếu TELEGRAM_BOT_TOKEN hoặc TELEGRAM_CHAT_ID trong .env", message };
   try {

@@ -15,6 +15,34 @@ Các file liên quan trong repo:
 
 ---
 
+## Cách nhanh: cài bằng trình duyệt (wizard `/cai-dat`)
+
+Web chạy **từ source + PM2** (không cần Docker). Wizard làm thay các bước 1.5 → 1.7 bên dưới.
+
+1. Cài trong aaPanel: **Nginx**, **MySQL 8**, **Node.js version manager → Node 22**. Tạo database `cucre` (bảng mã **utf8mb4**) trong **Databases**.
+2. Lấy code về server (repo private → làm theo mục 1.4 để tạo deploy key), rồi chạy script chuẩn bị:
+
+   ```bash
+   git clone git@github-cucre:tainguyen2810/cucre.git /www/wwwroot/cucre
+   cd /www/wwwroot/cucre && bash scripts/bootstrap.sh
+   ```
+
+   Script cài thư viện, build, chạy bằng PM2 và in ra **mã cài đặt**.
+3. aaPanel › **Website › Add site** cho `cucre.vn` → **Reverse proxy** tới `http://127.0.0.1:3000`.
+4. Mở **http://cucre.vn/cai-dat** và làm theo 6 bước:
+   - Nhập mã cài đặt (xem lại bằng `cat /www/wwwroot/cucre/.setup-token` hoặc `pm2 logs cucre`).
+   - Wizard kiểm tra máy chủ.
+   - Nhập database và bấm kiểm tra kết nối.
+   - Nhập địa chỉ web, thư mục ảnh, tài khoản admin.
+   - Nhập các key kết nối thêm (bỏ qua được).
+   - Bấm **Cài đặt ngay**.
+5. Wizard sẽ tạo bảng, tạo admin, ghi `.env` (quyền 600) rồi **tự khởi động lại** qua PM2. Màn hình cuối có sẵn **cấu hình Nginx** và **danh sách cron** đã điền đúng đường dẫn, chỉ cần chép vào aaPanel (mục 1.8, 1.9). Sau đó bật SSL.
+6. Sau khi cài, `/cai-dat` tự khóa (chuyển về trang đăng nhập admin). Muốn đổi cấu hình: sửa `.env` rồi `pm2 restart cucre`.
+
+> Bảo mật: chỉ người đọc được file `.setup-token` trên server (tức là có quyền vào server) mới cài được. Mã bị xóa ngay sau khi cài xong.
+
+Phần dưới là cách làm tay từng bước (dùng khi không muốn dùng wizard).
+
 ## 1. Chuẩn bị (làm một lần)
 
 ### 1.1 Tên miền
@@ -74,13 +102,13 @@ nano .env
 ```ini
 DATABASE_URL="mysql://cucre:MAT_KHAU_DB@localhost:3306/cucre"
 AUTH_SECRET="...chuỗi ngẫu nhiên..."         # tạo bằng: openssl rand -base64 32
-NEXT_PUBLIC_SITE_URL="https://cucre.vn"
+SITE_URL="https://cucre.vn"
 UPLOAD_DIR="/www/cucre-uploads"
-NEXT_PUBLIC_ZALO_URL="https://zalo.me/..."   # link Zalo OA/nhóm, có thể điền sau
+ZALO_URL="https://zalo.me/..."              # link Zalo OA/nhóm, có thể điền sau
 ```
 
 > Mật khẩu DB có ký tự đặc biệt (`@ : / # ?`) thì phải mã hóa URL, ví dụ `@` → `%40`.
-> Biến bắt đầu bằng `NEXT_PUBLIC_` được gắn vào lúc build: đổi giá trị thì phải build lại (`bash scripts/deploy.sh`).
+> Mọi biến trong `.env` được đọc lúc chạy: đổi xong chỉ cần `pm2 restart cucre`, không phải build lại.
 
 Bảo vệ file:
 

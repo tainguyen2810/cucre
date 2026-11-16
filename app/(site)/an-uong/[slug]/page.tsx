@@ -15,7 +15,7 @@ import { daysAgo } from "@/lib/dates";
 import { formatShortDate } from "@/lib/format";
 import { placePath } from "@/lib/links";
 import { findDistrict, getPlaceBySlug } from "@/lib/queries/places";
-import { SITE_URL } from "@/lib/site";
+import { SITE_URL, TURNSTILE_SITE_KEY } from "@/lib/site";
 import { param } from "@/lib/url";
 
 // /an-uong/[slug] là trang quận (vd. /an-uong/binh-tan) hoặc trang quán.
@@ -124,7 +124,7 @@ export default async function PlaceOrDistrictPage({ params, searchParams }: Page
                     <b>Điều kiện:</b> {v.conditions}
                   </div>
                 ) : null}
-                <ClaimForm voucherId={v.id} placeName={place.name} />
+                <ClaimForm voucherId={v.id} placeName={place.name} turnstileSiteKey={TURNSTILE_SITE_KEY} />
               </section>
             ))
           )}

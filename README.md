@@ -25,7 +25,7 @@ Yêu cầu: Node.js ≥ 20.19, MySQL 8 (hoặc MariaDB ≥ 10.6).
    GRANT ALL ON *.* TO 'cucre'@'localhost';
    ```
 
-3. Tạo file `.env` từ mẫu rồi điền `DATABASE_URL`, `AUTH_SECRET` (`npx auth secret`), `SEED_ADMIN_PASSWORD`:
+3. Tạo file `.env` từ mẫu rồi điền `DATABASE_URL`, `AUTH_SECRET` (`npx auth secret`), `SEED_ADMIN_PASSWORD` (hoặc bỏ qua bước này, chạy `npm run dev` rồi mở `/cai-dat`):
 
    ```bash
    cp .env.example .env
@@ -63,7 +63,7 @@ Yêu cầu: Node.js ≥ 20.19, MySQL 8 (hoặc MariaDB ≥ 10.6).
 
 ## Triển khai
 
-Xem [docs/trien-khai.md](docs/trien-khai.md): aaPanel, PM2, Nginx, SSL, cron, sao lưu, cập nhật phiên bản (`bash scripts/deploy.sh`).
+Cách nhanh: clone code, chạy `bash scripts/bootstrap.sh`, rồi mở `/cai-dat` trên trình duyệt để cài bằng wizard. Chi tiết: [docs/trien-khai.md](docs/trien-khai.md): aaPanel, PM2, Nginx, SSL, cron, sao lưu, cập nhật phiên bản (`bash scripts/deploy.sh`).
 
 ## Cấu trúc
 

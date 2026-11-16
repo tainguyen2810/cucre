@@ -50,3 +50,6 @@ next-env.d.ts
 
 # log PM2
 /logs/
+
+# mã cài đặt wizard
+/.setup-token
